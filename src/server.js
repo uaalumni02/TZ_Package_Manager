@@ -3,7 +3,9 @@ import 'dotenv/config'
 import mongoose from 'mongoose';
 import cors from 'cors';
 
+
 const app = express();
+const { log, error } = console;
 
 mongoose.Promise = global.Promise
 
@@ -25,14 +27,14 @@ const TEST_DB_URL = process.env.MONGO_TEST_URL;
 if (process.env.NODE_ENV == "test") {
     mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }, (err) => {
         if (err)
-            return console.log('Unable to Connect to MongoDB')
-        return console.log('Connection Successful to test DB')
+            return log('Unable to Connect to MongoDB')
+        return log('Connection Successful to test DB')
     })
 } else {
     mongoose.connect(DB_URL, { useNewUrlParser: true }, (err) => {
         if (err)
-            return console.log('Unable to Connect to MongoDB')
-        return console.log('Connection Successful')
+            return log('Unable to Connect to MongoDB')
+        return log('Connection Successful')
     })
 }
 
@@ -40,5 +42,5 @@ if (process.env.NODE_ENV == "test") {
 app.use('/api/resident', residentRoutes);
 app.use('/api/user', userRoutes);
 
-app.listen(port, () => console.log('server is running'));
+app.listen(port, () => log('server is running'));
 export default app;

@@ -11,15 +11,16 @@ import userController from '../controllers/user';
 
 const router = express.Router();
 
-//create user
-router.post('/', userController.createUser);
+
 //user login
 router.post('/login', userController.logIn);
-//delete user
-router.delete('/:id', userController.removeUser);
-//shows all user
-router.get('/', checkAuth, userController.allUsers);
-//show user by id
-router.get('/:id', checkAuth, userController.showUserById);
+
+router.route('/')
+  .post(userController.createUser)
+  .get(checkAuth, userController.allUsers)
+
+  router.route('/:id')
+  .delete(userController.removeUser)
+  .get(checkAuth, userController.showUserById)
 
 export default router;

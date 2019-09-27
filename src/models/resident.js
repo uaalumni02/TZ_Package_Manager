@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const isValidResidentName = (name) => {
     const regExp = /^([A-Za-z]+[,.]?[ ]?|[A-Za-z]+['-]?)+$/i
@@ -14,7 +14,7 @@ const isValidResidentName = (name) => {
     return regExp.test(phone)
   };
 
-  const residentInformationSchema = mongoose.Schema({
+  const residentInformationSchema = Schema({
     
     name: {
         type: String, 

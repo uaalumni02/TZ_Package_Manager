@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 var validate = require('mongoose-validator')
 
 var nameValidator = [
@@ -17,7 +17,7 @@ var nameValidator = [
 
 
 
-const UserSchema = new Schema({
+const UserSchema = Schema({
     username:
     {
         type: String,

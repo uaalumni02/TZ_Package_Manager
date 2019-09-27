@@ -1,14 +1,14 @@
 export const addResidents = async (model, data) => {
-    const newResident = new model({ ...data });
-    return newResident.save()
-      .then(res => {
-        const { name, email, phone } = res, residentData = { name, email, phone }
-        return residentData
-      })
-      .catch(error => {
-        return { error }
-      })
-  }
+  const newResident = new model({ ...data });
+  return newResident.save()
+    .then(res => {
+      const { name, email, phone } = res, residentData = { name, email, phone }
+      return residentData
+    })
+    .catch(error => {
+      return { error }
+    })
+}
   export const getAllResidents = async model => {
     try {
       const allResidents = await model.find({});

@@ -1,41 +1,52 @@
 import Resident from '../models/resident';
 import * as db from '../db/db';
+import * as Response from '../helpers/response/response';
+
+import schema from '../schema/resident';
+
+const Joi = require('@hapi/joi');
 
 class ResidentData {
     static async addNewResident(req, res) {
         const newResidentData = { ...req.body };
         try {
-            const addResidents = await db.addResidents(Resident, newResidentData)
-            return res.status(200).json(addResidents)
+            const result = await schema.validateAsync(newResidentData);
+            if (!result.error) {
+                const addResidents = await db.addResidents(Resident, newResidentData)
+                return Response.responseOkCreated(res, addResidents)
+            }
         } catch (error) {
-            res.status(500).json({ error: error })
+            Response.responseBadRquest(res)
         }
     }
     static async getAllResidents(req, res) {
         try {
             const allResidents = await db.getAllResidents(Resident)
-            return res.status(200).json(allResidents)
+            return Response.responseOk(res, allResidents)
         } catch (error) {
-            res.status(500).json({ error: error })
+            Response.responseNotFound(res)
         }
     }
     static async getResidentById(req, res) {
         const { id } = req.params;
         try {
             const residentById = await db.getResidentById(Resident, id)
-            return res.status(200).json(residentById)
+            return Response.responseOk(res, residentById)
         } catch (error) {
-            res.status(500).json({ error: error })
+            Response.responseNotFound(res)
         }
     }
     static async editResident(req, res) {
         const { name, email, phone } = req.body,
             updateResident = { name, email, phone };
         try {
-            const residentToEdit = await db.editResident(Resident, updateResident)
-            return res.status(200).json(residentToEdit)
+            const result = await schema.validateAsync(updateResident);
+            if (!result.error) {
+                const residentToEdit = await db.editResident(Resident, updateResident)
+                return Response.responseOkCreated(res, residentToEdit)
+            }
         } catch (error) {
-            res.status(500).json({ error: error })
+            Response.responseBadRquest(res)
         }
     }
 }
