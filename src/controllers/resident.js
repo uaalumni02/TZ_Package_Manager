@@ -4,7 +4,6 @@ import * as Response from '../helpers/response/response';
 
 import schema from '../schema/resident';
 
-const Joi = require('@hapi/joi');
 
 class ResidentData {
     static async addNewResident(req, res) {
@@ -16,7 +15,7 @@ class ResidentData {
                 return Response.responseOkCreated(res, addResidents)
             }
         } catch (error) {
-            Response.responseBadRquest(res)
+            return Response.responseBadRquest(res)
         }
     }
     static async getAllResidents(req, res) {
@@ -24,16 +23,17 @@ class ResidentData {
             const allResidents = await db.getAllResidents(Resident)
             return Response.responseOk(res, allResidents)
         } catch (error) {
-            Response.responseNotFound(res)
+            return Response.responseNotFound(res)
         }
     }
     static async getResidentById(req, res) {
         const { id } = req.params;
         try {
+            console.log(id)
             const residentById = await db.getResidentById(Resident, id)
             return Response.responseOk(res, residentById)
         } catch (error) {
-            Response.responseNotFound(res)
+            return Response.responseNotFound(res)
         }
     }
     static async editResident(req, res) {
@@ -46,7 +46,7 @@ class ResidentData {
                 return Response.responseOkCreated(res, residentToEdit)
             }
         } catch (error) {
-            Response.responseBadRquest(res)
+            return Response.responseBadRquest(res)
         }
     }
 }

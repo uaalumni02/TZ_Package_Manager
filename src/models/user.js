@@ -29,7 +29,6 @@ const UserSchema = Schema({
     {
         type: String,
         required: true,
-        unique: true
     },
 });
 
