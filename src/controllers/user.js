@@ -1,7 +1,8 @@
 import express from "express";
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+
+import Token from '../helpers/jwt/token';
 
 //import model
 import User from '../models/user';
@@ -36,8 +37,12 @@ router.createUser = ('/', (req, res, next) => {
                         .save()
                         .then(result => {
                             console.log(result)
+                            const { _id, username } = result;
+                            const token = Token.sign({ id: _id, username })
+
                             res.status(201).json({
                                 message: 'User Created',
+                                token,
                             });
                         })
                         .catch(err => {
