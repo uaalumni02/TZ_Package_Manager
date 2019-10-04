@@ -11,7 +11,6 @@ const { expect } = chai;
 chai.use(chaiHttp);
 chai.should()
 
-const BASE_URL = '';
 const residentPath = '/api/resident';
 const userPath = '/api/user';
 let validAdminToken;
@@ -77,7 +76,6 @@ describe('Resident', () => {
                 .get('/api/resident/' + id)
                 .set('Authorization', 'Bearer ' + validAdminToken)
                 .end((err, response) => {
-                    console.log(response.body)
                     response.body.should.be.an('object').to.have.nested.property('data.name')
                     response.body.should.be.an('object').to.have.nested.property('data.email')
                     response.body.should.be.an('object').to.have.nested.property('data.phone')
@@ -86,57 +84,38 @@ describe('Resident', () => {
         });
 
     });
-
+    describe(' get Resident by ID', () => {
+        it('should not get resident by id since no valid token', (done) => {
+            request(app)
+                .get('/api/resident/' + id)
+                .expect(401, done);
+        });
+    });
+    describe('update Resident', () => {
+        it('should update resident given the id since valid token', (done) => {
+            chai.request(app)
+                .patch('/api/resident/' + id)
+                .set('Authorization', 'Bearer ' + validAdminToken)
+                .send({ name: "John Doe", email: 'doe@gmail.com', phone: '888-888-8888' })
+                .end((err, response) => {
+                    response.body.should.be.a('object').to.have.nested.property('data.name').to.eql('John Doe');
+                    response.body.should.be.a('object').to.have.nested.property('data.email').to.eql('doe@gmail.com');
+                    response.body.should.be.a('object').to.have.nested.property('data.phone').to.eql('888-888-8888');
+                    done()
+                });
+        });
+    });
+    describe('update Resident', () => {
+        it('should not update resident given the id as no valid token', (done) => {
+            request(app)
+                .patch('/api/resident/' + id)
+                .send({ name: "John", email: 'doe@gmail.com', phone: '888-888-8888' })
+                .expect(401, done);
+        });
+    });
 }).timeout(30000)
 
 
-// describe('/PATCH/:id Resident', () => {
-//     it('it should not UPDATE a resident given the id as token not passed', (done) => {
-//         let resident = new Resident({ name: "John Doe", email: 'doe@gmail.com', phone: '888-888-8888' })
-//         resident.save((err, resident) => {
-//             request(app)
-//                 .patch('/api/resident/' + resident.id)
-//                 .send({ name: "John", email: 'doe@gmail.com', phone: '888-888-8888' })
-//                 .expect(401);
-//             done();
-//         });
-//     });
-// });
-
-// describe('/PATCH/:id Resident', () => {
-//     it('it should UPDATE a resident given the id as token was passed', (done) => {
-//         var token = jwt.sign({
-//             id: 1,
-//         }, process.env.JWT_KEY, { expiresIn: 60 * 60 });
-//         let resident = new Resident({ name: "John Doe", email: 'doe@gmail.com', phone: '888-888-8888' })
-//         resident.save((err, resident) => {
-//             request(app)
-//                 .patch('/api/resident/' + 'resident.id')
-//                 .set('Authorization', 'Bearer ' + token)
-//                 .send({ name: "John Doe", email: 'doe@gmail.com', phone: '888-888-8888' })
-//                 .expect(201, done);
-//             resident.should.be.a('object')
-//             expect(resident).to.have.property('name');
-//             expect(resident).to.have.property('email');
-//             expect(resident).to.have.property('phone');
-
-//         });
-//     });
-// });
-// describe('/GET/:id resident', () => {
-//     it('it should not GET a resident by the  id as token not passed', (done) => {
-//         let resident = new Resident({ name: "John Doe", email: 'doe@gmail.com', phone: '888-888-8888' });
-//         resident.save((err, resident) => {
-//             const residentId = resident.id
-//             request(app)
-//                 .get('/api/resident/' + residentId)
-//                 .send(resident)
-//                 .expect(401)
-//             done()
-//         });
-
-//     });
-// });
 
 
 
