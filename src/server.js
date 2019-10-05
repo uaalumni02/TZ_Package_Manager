@@ -14,6 +14,7 @@ const port = process.env.PORT || 3000;
 //import routes
 import residentRoutes from './routes/resident.route'
 import userRoutes from './routes/user.route';
+import deliveryRoutes from './routes/delivery.route';
 
 
 app.use(cors());
@@ -41,6 +42,7 @@ if (process.env.NODE_ENV == "test") {
 //middleware to utilize routes
 app.use('/api/resident', residentRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/delivery', deliveryRoutes);
 
 app.listen(port, () => log('server is running'));
 export default app;

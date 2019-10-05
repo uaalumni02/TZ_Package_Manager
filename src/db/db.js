@@ -33,3 +33,14 @@ export const addResidents = async (model, data) => {
       throw error
     }
   }
+  export const addDelivery = async (model, data) => {
+    const newDelivery = new model({ ...data });
+    return newDelivery.save()
+      .then(res => {
+        const { name } = res, deliveryData = { name }
+        return deliveryData
+      })
+      .catch(error => {
+        return { error }
+      })
+  }
