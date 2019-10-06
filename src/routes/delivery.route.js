@@ -13,5 +13,9 @@ const router = express.Router();
 
 router.route('/')
   .post(checkAuth, deliveryController.addDeliveryName)
+  .get(checkAuth, deliveryController.allDeliverers)
+
+  router.route('/:id')
+  .get(checkAuth, deliveryController.getDelivererById)
 
   export default router;

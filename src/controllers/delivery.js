@@ -18,6 +18,23 @@ class deliveryData {
             return Response.responseBadRquest(res)
         }
     }
+    static async allDeliverers(req, res) {
+        try {
+            const allDeliveryNames = await db.getAllDeliverers(Delivery)
+            return Response.responseOk(res, allDeliveryNames)
+        } catch (error) {
+            return Response.responseNotFound(res)
+        }
+    }
+    static async getDelivererById(req, res) {
+        const { id } = req.params;
+        try {
+            const delivererById = await db.getDelivererById(Delivery, id)
+            return Response.responseOk(res, delivererById)
+        } catch (error) {
+            return Response.responseNotFound(res)
+        }
+    }
 }
 
 export default deliveryData

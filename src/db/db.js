@@ -44,3 +44,20 @@ export const addResidents = async (model, data) => {
         return { error }
       })
   }
+
+  export const getAllDeliverers = async model => {
+    try {
+      const allDeliverers = await model.find({});
+      return allDeliverers
+    } catch (error) {
+      throw error;
+    }
+  }
+  export const getDelivererById = async (model, id) => {
+    try {
+      const deliverer = await model.findById(id)
+      return deliverer
+    } catch (error) {
+      throw error;
+    }
+  }
