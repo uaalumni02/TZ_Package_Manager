@@ -19,5 +19,5 @@ const deliveryInformationSchema = Schema({
 
 });
 
-export default mongoose.model('Delivery', deliveryInformationSchema);
+export default mongoose.model('Deliverer', deliveryInformationSchema);
 

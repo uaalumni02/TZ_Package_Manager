@@ -17,7 +17,7 @@ casual.define('resident', () => {
   }
 });
 
-casual.define('delivery', () => {
+casual.define('deliverer', () => {
   return {
     name,
   }

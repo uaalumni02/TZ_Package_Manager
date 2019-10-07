@@ -11,12 +11,12 @@ const { expect } = chai;
 chai.use(chaiHttp);
 chai.should()
 
-const deliveryPath = '/api/delivery';
+const deliveryPath = '/api/deliverer';
 const userPath = '/api/user';
 let validAdminToken;
 let id;
 
-describe('Delivery', () => {
+describe('Deliverer', () => {
     before(function (done) {
         this.timeout(20000);
         http.post(userPath)
@@ -30,7 +30,7 @@ describe('Delivery', () => {
         it('should not register deliverer if no valid in header', (done) => {
             request(app)
                 .post(deliveryPath)
-                .send(Mock.delivery)
+                .send(Mock.deliverer)
                 .expect(401, done);
         });
     });
@@ -39,10 +39,10 @@ describe('Delivery', () => {
             request(app)
                 .post(deliveryPath)
                 .set('Authorization', 'Bearer ' + validAdminToken)
-                .send(Mock.delivery)
+                .send(Mock.deliverer)
                 .expect(201, done);
-            Mock.delivery.should.be.a('object')
-            expect(Mock.delivery).to.have.property('name');
+            Mock.deliverer.should.be.a('object')
+            expect(Mock.deliverer).to.have.property('name');
         });
     });
 
@@ -69,7 +69,7 @@ describe('Delivery', () => {
     describe(' get deliverer by ID', () => {
         it('should not get deliverer by id since no valid token', (done) => {
             request(app)
-                .get('/api/delivery/' + id)
+                .get('/api/deliverer/' + id)
                 .expect(401, done);
         });
     });
@@ -77,7 +77,7 @@ describe('Delivery', () => {
     describe(' get deliverer by ID', () => {
         it('should get deliverer by id since valid token', (done) => {
             chai.request(app)
-                .get('/api/delivery/' + id)
+                .get('/api/deliverer/' + id)
                 .set('Authorization', 'Bearer ' + validAdminToken)
                 .end((err, response) => {
                     response.body.should.be.a('object').to.have.nested.property('success').to.eql(true);

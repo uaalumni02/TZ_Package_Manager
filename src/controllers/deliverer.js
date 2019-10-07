@@ -1,4 +1,4 @@
-import Delivery from '../models/deliverer';
+import Deliverer from '../models/deliverer';
 import * as db from '../db/db';
 import * as Response from '../helpers/response/response';
 
@@ -11,7 +11,7 @@ class deliveryData {
         try {
             const result = await schema.validateAsync(deliveryData);
             if (!result.error) {
-                const deliveryName = await db.addDelivery(Delivery, deliveryData)
+                const deliveryName = await db.addDelivery(Deliverer, deliveryData)
                 return Response.responseOkCreated(res, deliveryName)
             }
         } catch (error) {
@@ -20,7 +20,7 @@ class deliveryData {
     }
     static async allDeliverers(req, res) {
         try {
-            const allDeliveryNames = await db.getAllDeliverers(Delivery)
+            const allDeliveryNames = await db.getAllDeliverers(Deliverer)
             return Response.responseOk(res, allDeliveryNames)
         } catch (error) {
             return Response.responseNotFound(res)
@@ -29,7 +29,7 @@ class deliveryData {
     static async getDelivererById(req, res) {
         const { id } = req.params;
         try {
-            const delivererById = await db.getDelivererById(Delivery, id)
+            const delivererById = await db.getDelivererById(Deliverer, id)
             return Response.responseOk(res, delivererById)
         } catch (error) {
             return Response.responseNotFound(res)
