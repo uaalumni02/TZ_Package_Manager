@@ -8,16 +8,19 @@ const isValidDeliveryName = (name) => {
 
 
 
-const deliveryInformationSchema = Schema({
+const companyInformationSchema = Schema({
+    __v: {
+        type: Number,
+        select: false
+     },
     name: {
         type: String,
         required: [true, 'name is required'],
         min: 2,
-        max: 12,
-        validate: [isValidDeliveryName, 'Please enter valid delivery name'],
+        // validate: [isValidDeliveryName, 'Please enter valid delivery name'],
     },
 
 });
 
-export default mongoose.model('Deliverer', deliveryInformationSchema);
+export default mongoose.model('Company', companyInformationSchema);
 

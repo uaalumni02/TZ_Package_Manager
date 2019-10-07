@@ -61,3 +61,15 @@ export const addResidents = async (model, data) => {
       throw error;
     }
   }
+  export const addReceipt = async (model, data) => {
+    const newReceipt = new model({ ...data });
+    console.log(data)
+    return newReceipt.save()
+      .then(res => {
+        const {  deliveryDate, deliveryTime, additionalInfo, name, deliverer, } = res, receiptData = {  deliveryDate, deliveryTime, additionalInfo, name, deliverer, }
+        return receiptData
+      })
+      .catch(error => {
+        return { error }
+      })
+  }

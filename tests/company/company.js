@@ -11,12 +11,12 @@ const { expect } = chai;
 chai.use(chaiHttp);
 chai.should()
 
-const deliveryPath = '/api/deliverer';
+const companyPath = '/api/company';
 const userPath = '/api/user';
 let validAdminToken;
 let id;
 
-describe('Deliverer', () => {
+describe('Company', () => {
     before(function (done) {
         this.timeout(20000);
         http.post(userPath)
@@ -26,18 +26,18 @@ describe('Deliverer', () => {
                 done();
             });
     });
-    describe('add Deliverer', () => {
-        it('should not register deliverer if no valid in header', (done) => {
+    describe('add company', () => {
+        it('should not register company if no valid in header', (done) => {
             request(app)
-                .post(deliveryPath)
+                .post(companyPath)
                 .send(Mock.deliverer)
                 .expect(401, done);
         });
     });
-    describe('add Deliverer', () => {
-        it('should register deliverer since there is a valid header', (done) => {
+    describe('add company', () => {
+        it('should register company since there is a valid header', (done) => {
             request(app)
-                .post(deliveryPath)
+                .post(companyPath)
                 .set('Authorization', 'Bearer ' + validAdminToken)
                 .send(Mock.deliverer)
                 .expect(201, done);
@@ -46,17 +46,17 @@ describe('Deliverer', () => {
         });
     });
 
-    describe('get Deliver', () => {
-        it('should not get deliverers since no valid token', function (done) {
+    describe('get company', () => {
+        it('should not get companies since no valid token', function (done) {
             request(app)
-                .get(deliveryPath)
+                .get(companyPath)
                 .expect(401, done);
         });
     });
-    describe('get Deliverer', () => {
-        it('should get deliverer since valid token', (done) => {
+    describe('get company', () => {
+        it('should get company since valid token', (done) => {
             chai.request(app)
-                .get(deliveryPath)
+                .get(companyPath)
                 .set('Authorization', 'Bearer ' + validAdminToken)
                 .end((err, response) => {
                     id = response.body.data[0]._id
@@ -66,18 +66,18 @@ describe('Deliverer', () => {
                 });
         });
     });
-    describe(' get deliverer by ID', () => {
-        it('should not get deliverer by id since no valid token', (done) => {
+    describe(' get company by ID', () => {
+        it('should not get company by id since no valid token', (done) => {
             request(app)
-                .get('/api/deliverer/' + id)
+                .get('/api/company/' + id)
                 .expect(401, done);
         });
     });
 
-    describe(' get deliverer by ID', () => {
-        it('should get deliverer by id since valid token', (done) => {
+    describe(' get company by ID', () => {
+        it('should get company by id since valid token', (done) => {
             chai.request(app)
-                .get('/api/deliverer/' + id)
+                .get('/api/company/' + id)
                 .set('Authorization', 'Bearer ' + validAdminToken)
                 .end((err, response) => {
                     response.body.should.be.a('object').to.have.nested.property('success').to.eql(true);

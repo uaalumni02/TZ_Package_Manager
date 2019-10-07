@@ -5,17 +5,17 @@ import checkAuth from '../middleware/check-auth';
 
 
 //import model
-import Delivery from '../models/deliverer';
+import Company from '../models/company';
 // import controller
-import deliveryController from '../controllers/deliverer';
+import companyController from '../controllers/company';
 
 const router = express.Router();
 
 router.route('/')
-  .post(checkAuth, deliveryController.addDeliveryName)
-  .get(checkAuth, deliveryController.allDeliverers)
+  .post(checkAuth, companyController.addDeliveryName)
+  .get(checkAuth, companyController.allDeliverers)
 
   router.route('/:id')
-  .get(checkAuth, deliveryController.getDelivererById)
+  .get(checkAuth, companyController.getDelivererById)
 
   export default router;

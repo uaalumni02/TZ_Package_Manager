@@ -18,6 +18,10 @@ var nameValidator = [
 
 
 const UserSchema = Schema({
+    __v: {
+        type: Number,
+        select: false
+     },
     username:
     {
         type: String,
