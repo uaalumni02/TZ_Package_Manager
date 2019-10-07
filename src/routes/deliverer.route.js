@@ -5,9 +5,9 @@ import checkAuth from '../middleware/check-auth';
 
 
 //import model
-import Delivery from '../models/delivery';
+import Delivery from '../models/deliverer';
 // import controller
-import deliveryController from '../controllers/delivery';
+import deliveryController from '../controllers/deliverer';
 
 const router = express.Router();
 

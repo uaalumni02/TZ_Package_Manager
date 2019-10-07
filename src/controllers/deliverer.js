@@ -1,7 +1,7 @@
-import Delivery from '../models/delivery';
+import Delivery from '../models/deliverer';
 import * as db from '../db/db';
 import * as Response from '../helpers/response/response';
-import delivery from '../models/delivery';
+
 
 import schema from '../schema/delivery';
 
