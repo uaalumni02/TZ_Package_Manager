@@ -1,31 +1,39 @@
 import moment from 'moment';
-import Receipt from '../models/company';
+import Package from '../models/package';
 import * as db from '../db/db';
 import * as Response from '../helpers/response/response';
 
+import schema from '../schema/package';
 
-class ReceiptData {
-    static async addReceipt(req, res) {
+class PackageData {
+    static async addPackage(req, res) {
         const deliveryDate = req.body.deliveryDate;
         const deliveryTimestamp = moment(deliveryDate, 'YYYY-MM-DD').unix()
-        const receiptData = {
+        const packageData = {
             deliveryDate: deliveryTimestamp,
             deliveryTime: req.body.deliveryTime,
             additionalInfo: req.body.additionalInfo,
             name: req.body.name,
-            deliverer: req.body.deliverer,
+            companyName: req.body.companyName,
         };
         try {
-            // const result = await schema.validateAsync(receiptData);
-            // if (!result.error) {
-                const receiptInfo = await db.addReceipt(Receipt, receiptData)
-                // return Response.responseOkCreated(res, receiptInfo)
-                return res.status(200).json(receiptInfo)
-            // }
+            const result = await schema.validateAsync(packageData);
+            if (!result.error) {
+                const packageInfo = await db.addPackage(Package, packageData)
+                return Response.responseOkCreated(res, packageInfo)
+            }
         } catch (error) {
             return Response.responseBadRquest(res)
         }
     }
+    static async getAllPackages(req, res) {
+        try {
+            const allPackages = await db.getAllPackages(Package)
+            return res.status(200).json(allPackages)
+        } catch (error) {
+            res.status(500).json({ error: error })
+        }
+    }
 }
 
-export default ReceiptData;
+export default PackageData;

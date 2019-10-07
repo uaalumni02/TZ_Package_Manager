@@ -12,10 +12,10 @@ import companyController from '../controllers/company';
 const router = express.Router();
 
 router.route('/')
-  .post(checkAuth, companyController.addDeliveryName)
-  .get(checkAuth, companyController.allDeliverers)
+  .post(checkAuth, companyController.addCompanyName)
+  .get(checkAuth, companyController.allCompanies)
 
   router.route('/:id')
-  .get(checkAuth, companyController.getDelivererById)
+  .get(checkAuth, companyController.getCompanyById)
 
   export default router;

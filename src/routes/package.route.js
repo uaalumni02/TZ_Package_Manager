@@ -11,7 +11,7 @@ import packageController from '../controllers/package';
 const router = express.Router();
 
 router.route('/')
-  .post(checkAuth, packageController.addReceipt)
-
+  .post(checkAuth, packageController.addPackage)
+  .get(checkAuth, packageController.getAllPackages)
 
 export default router;

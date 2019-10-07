@@ -6,7 +6,7 @@ const isValidTime = (time) => {
     return regExp.test(time)
 };
 
-const receiptInformationSchema = mongoose.Schema({
+const packageInformationSchema = mongoose.Schema({
     __v: {
         type: Number,
         select: false
@@ -29,12 +29,12 @@ const receiptInformationSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'Resident',
     },
-    deliverer: {
+    companyName: {
         type: Schema.Types.ObjectId,
-        ref: 'Deliverer',
+        ref: 'Company',
     },
 
 });
 
 
-export default mongoose.model('Package', receiptInformationSchema);
+export default mongoose.model('Package', packageInformationSchema);

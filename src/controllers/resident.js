@@ -29,7 +29,6 @@ class ResidentData {
     static async getResidentById(req, res) {
         const { id } = req.params;
         try {
-            console.log(id)
             const residentById = await db.getResidentById(Resident, id)
             return Response.responseOk(res, residentById)
         } catch (error) {

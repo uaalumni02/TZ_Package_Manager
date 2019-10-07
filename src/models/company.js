@@ -13,7 +13,7 @@ const companyInformationSchema = Schema({
         type: Number,
         select: false
      },
-    name: {
+    companyName: {
         type: String,
         required: [true, 'name is required'],
         min: 2,
