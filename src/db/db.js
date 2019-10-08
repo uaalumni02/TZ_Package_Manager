@@ -63,10 +63,22 @@ export const getCompanyById = async (model, id) => {
 }
 export const addPackage = async (model, data) => {
   const newPackage = new model({ ...data });
-  console.log(data)
   return newPackage.save()
     .then(res => {
-      const { deliveryDate, deliveryTime, additionalInfo, name, companyName } = res, packageData = { deliveryDate, deliveryTime, additionalInfo, name, companyName }
+      const {
+        deliveryDate,
+        deliveryTime,
+        additionalInfo,
+        name,
+        companyName
+      } = res,
+        packageData = {
+          deliveryDate,
+          deliveryTime,
+          additionalInfo,
+          name,
+          companyName
+        }
       return packageData
     })
     .catch(error => {

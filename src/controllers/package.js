@@ -9,7 +9,7 @@ class PackageData {
     static async addPackage(req, res) {
         const packageData = { ...req.body };
         const deliveryTimestamp = moment(packageData.deliveryDate, 'YYYY-MM-DD').unix()
-         packageData.deliveryDate = deliveryTimestamp
+        packageData.deliveryDate = deliveryTimestamp
         try {
             const result = await schema.validateAsync(packageData);
             if (!result.error) {
