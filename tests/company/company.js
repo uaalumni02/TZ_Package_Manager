@@ -30,7 +30,7 @@ describe('Company', () => {
         it('should not register company if no valid in header', (done) => {
             request(app)
                 .post(companyPath)
-                .send(Mock.deliverer)
+                .send(Mock.company)
                 .expect(401, done);
         });
     });
@@ -39,10 +39,10 @@ describe('Company', () => {
             request(app)
                 .post(companyPath)
                 .set('Authorization', 'Bearer ' + validAdminToken)
-                .send(Mock.deliverer)
+                .send(Mock.company)
                 .expect(201, done);
-            Mock.deliverer.should.be.a('object')
-            expect(Mock.deliverer).to.have.property('name');
+            Mock.company.should.be.a('object')
+            expect(Mock.company).to.have.property('companyName');
         });
     });
 
@@ -60,8 +60,9 @@ describe('Company', () => {
                 .set('Authorization', 'Bearer ' + validAdminToken)
                 .end((err, response) => {
                     id = response.body.data[0]._id
-                    response.body.should.be.a('object').to.have.nested.property('success').to.eql(true);
-                    response.body.should.be.an('object').to.have.nested.property('data[0].name')
+                    response.body.should.be.a('object');
+                    expect(response.body).to.have.nested.property('success').to.eql(true);
+                    expect(response.body).to.have.nested.property('data[0].name')
                     done();
                 });
         });
@@ -80,8 +81,9 @@ describe('Company', () => {
                 .get('/api/company/' + id)
                 .set('Authorization', 'Bearer ' + validAdminToken)
                 .end((err, response) => {
-                    response.body.should.be.a('object').to.have.nested.property('success').to.eql(true);
-                    response.body.should.be.an('object').to.have.nested.property('data.name')
+                    response.body.should.be.a('object');
+                    expect(response.body).to.have.nested.property('success').to.eql(true);
+                    expect(response.body).to.have.nested.property('data.name')
                     done();
                 });
         });

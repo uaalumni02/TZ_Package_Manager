@@ -1,6 +1,6 @@
 import casual from 'casual';
 
-let name = casual.random_element(['USPS', 'UPS', 'Amazon', 'Postmates', 'FedEx']);
+let companyName = casual.random_element(['USPS', 'UPS', 'Amazon', 'Postmates', 'FedEx']);
 
 casual.define('user', () => {
   return {
@@ -17,9 +17,9 @@ casual.define('resident', () => {
   }
 });
 
-casual.define('deliverer', () => {
+casual.define('company', () => {
   return {
-    name,
+    companyName,
   }
 });
 

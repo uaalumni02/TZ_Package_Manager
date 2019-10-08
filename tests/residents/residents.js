@@ -63,10 +63,11 @@ describe('Resident', () => {
                 .set('Authorization', 'Bearer ' + validAdminToken)
                 .end((err, response) => {
                     id = response.body.data[0]._id
-                    response.body.should.be.a('object').to.have.nested.property('success').to.eql(true);
-                    response.body.should.be.an('object').to.have.nested.property('data[0].name')
-                    response.body.should.be.an('object').to.have.nested.property('data[0].email')
-                    response.body.should.be.an('object').to.have.nested.property('data[0].phone')
+                    response.body.should.be.a('object')
+                    expect(response.body).to.have.nested.property('success').to.eql(true);
+                    expect(response.body).to.have.nested.property('data[0].name')
+                    expect(response.body).to.have.nested.property('data[0].email')
+                    expect(response.body).to.have.nested.property('data[0].phone')
                     done();
                 });
         });
@@ -77,10 +78,11 @@ describe('Resident', () => {
                 .get('/api/resident/' + id)
                 .set('Authorization', 'Bearer ' + validAdminToken)
                 .end((err, response) => {
-                    response.body.should.be.a('object').to.have.nested.property('success').to.eql(true);
-                    response.body.should.be.an('object').to.have.nested.property('data.name')
-                    response.body.should.be.an('object').to.have.nested.property('data.email')
-                    response.body.should.be.an('object').to.have.nested.property('data.phone')
+                    response.body.should.be.a('object');
+                    expect(response.body).to.have.nested.property('success').to.eql(true);
+                    expect(response.body).to.have.nested.property('data.name')
+                    expect(response.body).to.have.nested.property('data.email')
+                    expect(response.body).to.have.nested.property('data.phone')
                     done();
                 });
         });
@@ -100,10 +102,11 @@ describe('Resident', () => {
                 .set('Authorization', 'Bearer ' + validAdminToken)
                 .send({ name: "John Doe", email: 'doe@gmail.com', phone: '888-888-8888' })
                 .end((err, response) => {
-                    response.body.should.be.a('object').to.have.nested.property('message').to.eql('added');
-                    response.body.should.be.a('object').to.have.nested.property('data.email').to.eql('doe@gmail.com');
-                    response.body.should.be.a('object').to.have.nested.property('data.phone').to.eql('888-888-8888');
-                    response.body.should.be.a('object').to.have.nested.property('data.name').to.eql('John Doe');
+                    response.body.should.be.a('object');
+                    expect(response.body).to.have.nested.property('message').to.eql('added');
+                    expect(response.body).to.have.nested.property('data.email').to.eql('doe@gmail.com');
+                    expect(response.body).to.have.nested.property('data.phone').to.eql('888-888-8888');
+                    expect(response.body).to.have.nested.property('data.name').to.eql('John Doe');
                     done()
                 });
         });
