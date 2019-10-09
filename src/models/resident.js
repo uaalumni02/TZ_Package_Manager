@@ -36,6 +36,10 @@ const isValidResidentName = (name) => {
         required: [true, 'Phone number is requrired'],
         validate: [isValidPhoneNumber, 'Please enter a valid phone number'],
     },
+    companyName: {
+      type: Schema.Types.ObjectId,
+      ref: 'Company',
+  },
 });
 
 export default mongoose.model('Resident', residentInformationSchema);

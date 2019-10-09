@@ -28,6 +28,16 @@ class PackageData {
             res.status(500).json({ error: error })
         }
     }
+    static async getPackageByResident(req, res) {
+        const { resident } = req.params;
+        try {
+            const packageByResident = await db.getPackageByResident(Package, resident)
+            return res.status(200).json(packageByResident)
+        } catch (error) {
+            res.status(500).json({ error: error })
+        }
+    }
 }
+
 
 export default PackageData;

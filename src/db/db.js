@@ -93,3 +93,11 @@ export const getAllPackages = async model => {
     throw error;
   }
 }
+export const getPackageByResident = async (model, name) => {
+  try {
+    const residentPackage = await model.find({ name }).populate('name companyName').exec()
+    return residentPackage
+  } catch (error) {
+    throw error;
+  }
+}

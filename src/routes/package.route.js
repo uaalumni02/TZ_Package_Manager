@@ -14,4 +14,7 @@ router.route('/')
   .post(checkAuth, packageController.addPackage)
   .get(checkAuth, packageController.getAllPackages)
 
+router.route('/:resident')
+  .get(checkAuth, packageController.getPackageByResident)
+  
 export default router;
