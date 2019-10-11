@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
-var validate = require('mongoose-validator')
+const validate = require('mongoose-validator')
 
-var nameValidator = [
+const nameValidator = [
     validate({
         validator: 'isLength',
         arguments: [3, 10],
