@@ -1,18 +1,13 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-const isValidDeliveryName = (name) => {
-    const regExp = /^([A-Za-z]+[,.]?[ ]?|[A-Za-z]+['-]?)+$/i
-    return regExp.test(name)
-};
-
-
+import isValidDeliveryName from '../helpers/model/company';
 
 const companyInformationSchema = Schema({
     companyName: {
         type: String,
         required: [true, 'name is required'],
-        min: 2,
+        min: 3,
         validate: [isValidDeliveryName, 'Please enter valid delivery name'],
     },
     __v: {

@@ -1,10 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-const isValidTime = (time) => {
-    const regExp = /[1-9]{1,2}[:.,-]?/i
-    return regExp.test(time)
-};
+import isValidTime from '../helpers/model/package';
 
 const packageInformationSchema = mongoose.Schema({
     deliveryDate: {

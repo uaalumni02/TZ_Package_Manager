@@ -1,28 +1,13 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
-const validate = require('mongoose-validator')
 
-const nameValidator = [
-    validate({
-        validator: 'isLength',
-        arguments: [3, 10],
-        message: 'should be between 3 and 10 characters'
-    }),
-    validate({
-        validator: 'isAlphanumeric',
-        passIfEmpty: true,
-        message: 'should contain alpha-numeric characters only'
-    })
-];
-
-
+import nameValidator from '../helpers/model/user';
 
 const UserSchema = Schema({
     username:
     {
         type: String,
-        required: true,
-        unique: true,
+        required: [true, 'Please enter valid username'],
         validate: nameValidator
     },
     password:
