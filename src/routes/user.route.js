@@ -13,14 +13,14 @@ const router = express.Router();
 
 
 //user login
-router.post('/login', userController.logIn);
+router.post('/login', userController.userLogin);
 
 router.route('/')
-  .post(userController.createUser)
-  .get(checkAuth, userController.allUsers)
+  .post(userController.addUser)
+  .get(checkAuth, userController.getAllUsers)
 
   router.route('/:id')
-  .delete(userController.removeUser)
-  .get(checkAuth, userController.showUserById)
+  .delete(userController.deleteUser)
+  .get(checkAuth, userController.getUserById)
 
 export default router;

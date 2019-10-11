@@ -27,11 +27,24 @@ const responseOk = (res, data) => {
         data
     });
 }
-
+const responseConflict = (res) => {
+    return res.status(409).json({
+        success: false,
+        message: 'user name exist'
+    });
+}
+const responseBadAuth = (res) => {
+    return res.status(401).json({
+        success: false,
+        message: 'auth failed'
+    });
+}
 
 export {
     responseBadRquest,
     responseNotFound,
     responseOkCreated,
-    responseOk
+    responseOk,
+    responseConflict,
+    responseBadAuth
 }

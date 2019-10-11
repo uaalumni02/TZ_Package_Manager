@@ -1,24 +1,23 @@
 import express from "express";
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-
+import jwt from 'jsonwebtoken';
 import Token from '../helpers/jwt/token';
 
 //import model
 import User from '../models/user';
 
-const router = express.Router();
+import * as Response from '../helpers/response/response';
 
+import * as db from '../db/db';
 
-//create user
-router.createUser = ('/', (req, res, next) => {
-    User.find({ username: req.body.username })
-        .exec()
-        .then(user => {
+class userData {
+    static async addUser(req, res) {
+        const username = req.body.username
+        try {
+            const user = await db.findUser(User, username)
             if (user.length >= 1) {
-                return res.status(409).json({
-                    message: 'user name exist'
-                });
+                return Response.responseConflict(res, user)
             } else {
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
                     if (err) {
@@ -33,51 +32,24 @@ router.createUser = ('/', (req, res, next) => {
                         username: req.body.username,
                         password: hash
                     });
-                    user
-                        .save()
-                        .then(result => {
-                            console.log(result)
-                            const { _id, username } = result;
-                            const token = Token.sign({ id: _id, username })
-
-                            res.status(201).json({
-                                message: 'User Created',
-                                token,
-                            });
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            res.status(500).json({
-                                error: err
-
-                            });
-                        });
+                    db.addUser(user)
+                    return Response.responseOkCreated(res, user)
                 })
-
             }
-        })
-
-});
-
-// //user login
-router.logIn = ('/login', (req, res, next) => {
-
-    User.find({
-        username: req.body.username,
-    })
-        .exec()
-        .then(user => {
+        } catch (error) {
+            return Response.responseBadRquest(res)
+        }
+    }
+    static async userLogin(req, res) {
+        const username = req.body.username
+        try {
+            const user = await db.findUser(User, username)
             if (user.length < 1) {
-                return res.status(401).json({
-                    message: 'auth failed'
-                });
-
+                return Response.responseBadAuth(res, user)
             }
             bcrypt.compare(req.body.password, user[0].password, (err, result) => {
                 if (err) {
-                    return res.status(401).json({
-                        message: 'auth failed'
-                    });
+                    return Response.responseBadAuth(res, user)
                 }
                 if (result) {
                     const token = jwt.sign(
@@ -95,67 +67,40 @@ router.logIn = ('/login', (req, res, next) => {
                         userId: user[0]._id
                     });
                 }
-                res.status(401).json({
-                    message: 'auth failed'
-                });
-            });
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
+                return Response.responseBadAuth(res, user)
+            })
 
-//delete user
-router.removeUser = ('/:id', (req, res) => {
-    const id = req.params.id;
-    User.findOneAndDelete({ '_id': id })
-        .exec()
-        .then(result => {
-            res.status(200).json(result);
-
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
-
-//show all users
-router.allUsers = ('/', (req, res) => {
-    User.find()
-        .exec()
-        .then(docs => {
-            res.status(200).json(docs);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
-//get user by id
-router.showUserById = ('/:id', (req, res) => {
-    const id = req.params.id;
-    User.findById({ '_id': id })
-        .exec()
-        .then(result => {
-            res.status(200).json(result);
-
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
+        } catch (error) {
+            return Response.responseNotFound(res)
+        }
+    }
+    static async getAllUsers(req, res) {
+        try {
+            const allUsers = await db.getAllUsers(User)
+            return Response.responseOk(res, allUsers)
+        } catch (error) {
+            return Response.responseNotFound(res)
+        }
+    }
+    static async getUserById(req, res) {
+        const { id } = req.params;
+        try {
+            const userById = await db.getUserById(User, id)
+            return Response.responseOk(res, userById)
+        } catch (error) {
+            return Response.responseNotFound(res)
+        }
+    }
+    static async deleteUser(req, res) {
+        const { id } = req.params;
+        try {
+            const userToDelete = await db.removeUser(User, id)
+            return res.status(200).json(userToDelete)
+        } catch (error) {
+            res.status(500).json({ error: error })
+        }
+    }
+}
 
 
-
-export default router;
+export default userData

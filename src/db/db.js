@@ -1,3 +1,6 @@
+import Token from '../helpers/jwt/token';
+
+
 export const addResidents = async (model, data) => {
   const newResident = new model({ ...data });
   return newResident.save()
@@ -99,5 +102,48 @@ export const getPackageByResident = async (model, name) => {
     return residentPackage
   } catch (error) {
     throw error;
+  }
+}
+
+export const findUser = async (model, username) => {
+  try {
+    const user = await model.find({ username })
+    return user
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+export const addUser = async (user) => {
+  user.save()
+    .then(result => {
+      const { _id, username } = result;
+      const token = Token.sign({ id: _id, username })
+    })
+}
+
+export const getAllUsers = async model => {
+  try {
+    const allUsers = await model.find({});
+    return allUsers
+  } catch (error) {
+    throw error;
+  }
+}
+export const getUserById = async (model, id) => {
+  try {
+    const user = await model.findById(id)
+    return user
+  } catch (error) {
+    throw error;
+  }
+}
+export const removeUser = async (model, id) => {
+  try {
+    const deleteUser = await model.findOneAndDelete({ _id: id })
+    return deleteUser
+  } catch (error) {
+    throw error
   }
 }
