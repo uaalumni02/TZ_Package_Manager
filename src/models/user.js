@@ -18,10 +18,6 @@ var nameValidator = [
 
 
 const UserSchema = Schema({
-    __v: {
-        type: Number,
-        select: false
-     },
     username:
     {
         type: String,
@@ -33,6 +29,10 @@ const UserSchema = Schema({
     {
         type: String,
         required: true,
+    },
+    __v: {
+        type: Number,
+        select: false
     },
 });
 

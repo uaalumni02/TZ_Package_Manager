@@ -7,10 +7,6 @@ const isValidTime = (time) => {
 };
 
 const packageInformationSchema = mongoose.Schema({
-    __v: {
-        type: Number,
-        select: false
-     },
     deliveryDate: {
         type: String,
         required: true,
@@ -33,6 +29,10 @@ const packageInformationSchema = mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'Company',
     },
+    __v: {
+        type: Number,
+        select: false
+     },
 
 });
 

@@ -9,15 +9,15 @@ const isValidDeliveryName = (name) => {
 
 
 const companyInformationSchema = Schema({
-    __v: {
-        type: Number,
-        select: false
-     },
     companyName: {
         type: String,
         required: [true, 'name is required'],
         min: 2,
-        // validate: [isValidDeliveryName, 'Please enter valid delivery name'],
+        validate: [isValidDeliveryName, 'Please enter valid delivery name'],
+    },
+    __v: {
+        type: Number,
+        select: false
     },
 
 });
