@@ -1,6 +1,5 @@
 import Token from '../helpers/jwt/token';
 import User from '../models/user';
-import token from '../helpers/jwt/token';
 
 export const addResidents = async (model, data) => {
   const newResident = new model({ ...data });
