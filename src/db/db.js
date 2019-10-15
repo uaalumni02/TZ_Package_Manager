@@ -1,4 +1,3 @@
-import Token from '../helpers/jwt/token';
 import User from '../models/user';
 
 export const addResidents = async (model, data) => {
@@ -31,7 +30,7 @@ export const getResidentById = async (model, id) => {
 export const editResident = async (model, data) => {
   try {
     const editResident = await model.update({ ...data })
-    return data
+    return editResident
   } catch (error) {
     throw error
   }
