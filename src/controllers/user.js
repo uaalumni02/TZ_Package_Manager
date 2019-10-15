@@ -27,12 +27,9 @@ class userData {
                     } else {
 
                     }
-                    const user = new User({
-                        _id: new mongoose.Types.ObjectId(),
-                        username: req.body.username,
-                        password: hash
-                    });
-                    db.addUser(user)
+                    const password = hash
+                    db.addUser(username, password)
+
                     return Response.responseOkCreated(res, user)
                 })
             }

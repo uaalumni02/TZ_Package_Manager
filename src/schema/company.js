@@ -7,5 +7,4 @@ const schema = Joi.object({
         .required(),
 })
 
-
 export default schema

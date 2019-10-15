@@ -2,8 +2,8 @@ import Resident from '../models/resident';
 import * as db from '../db/db';
 import * as Response from '../helpers/response/response';
 
-import schema from '../schema/resident';
 
+import schema from '../schema/resident';
 
 class ResidentData {
     static async addNewResident(req, res) {

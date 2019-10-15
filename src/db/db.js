@@ -1,5 +1,6 @@
 import Token from '../helpers/jwt/token';
-
+import User from '../models/user';
+import token from '../helpers/jwt/token';
 
 export const addResidents = async (model, data) => {
   const newResident = new model({ ...data });
@@ -68,7 +69,7 @@ export const addPackage = async (model, data) => {
   const newPackage = new model({ ...data });
   return newPackage.save()
     .then(res => {
-      const { deliveryDate,deliveryTime, additionalInfo,name,companyName } = res, packageData = { res }
+      const { deliveryDate, deliveryTime, additionalInfo, name, companyName } = res, packageData = { res }
       return packageData
     })
     .catch(error => {
@@ -101,14 +102,18 @@ export const findUser = async (model, username) => {
   }
 }
 
-
-export const addUser = async (user) => {
-  user.save()
+export const addUser = async (username, password) => {
+  const user = { username, password };
+  return new User(user).save()
     .then(result => {
       const { _id, username } = result;
-      const token = Token.sign({ id: _id, username })
+      tokenData({id: _id, username})
+    })
+    .catch(error => {
+      return { error }
     })
 }
+
 
 export const getAllUsers = async model => {
   try {
