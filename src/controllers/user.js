@@ -1,8 +1,5 @@
-import express from "express";
-import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import Token from '../helpers/jwt/token';
 
 //import model
 import User from '../models/user';
