@@ -21,9 +21,7 @@ class userData {
                         return res.status(500).json({
                             error: err
                         });
-                    } else {
-
-                    }
+                    } 
                     const password = hash
                     db.addUser(username, password)
 
