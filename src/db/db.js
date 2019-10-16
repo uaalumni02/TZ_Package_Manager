@@ -98,6 +98,15 @@ export const removePackage = async (model, id) => {
     throw error
   }
 }
+export const getPackageByDate = async (model, deliveryDate) => {
+  console.log(model)
+  try {
+    const packages = await model.find({ deliveryDate })
+    return packages
+  } catch (error) {
+    throw error;
+  }
+}
 
 export const findUser = async (model, username) => {
   try {

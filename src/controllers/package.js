@@ -46,6 +46,15 @@ class PackageData {
             res.status(500).json({ error: error })
         }
     }
+    static async getPackageByDate(req, res) {
+        const { deliveryDate } = req.params;
+        try {
+            const packageByDate = await db.getPackageByDate(Package, deliveryDate)
+            return res.status(200).json(packageByDate)
+        } catch (error) {
+            res.status(500).json({ error: error })
+        }
+    }
 }
 
 
