@@ -16,5 +16,5 @@ router.route('/')
 
 router.route('/:resident')
   .get(checkAuth, packageController.getPackageByResident)
-  
+  .delete(checkAuth, packageController.deletePackage)
 export default router;

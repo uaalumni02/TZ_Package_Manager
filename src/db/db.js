@@ -90,6 +90,14 @@ export const getPackageByResident = async (model, name) => {
     throw error;
   }
 }
+export const removePackage = async (model, id) => {
+  try {
+    const deletePackage = await model.findOneAndDelete({ _id: id })
+    return deletePackage
+  } catch (error) {
+    throw error
+  }
+}
 
 export const findUser = async (model, username) => {
   try {

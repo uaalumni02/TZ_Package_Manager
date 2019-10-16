@@ -37,6 +37,15 @@ class PackageData {
             res.status(500).json({ error: error })
         }
     }
+    static async deletePackage(req, res) {
+        const { resident } = req.params;
+        try {
+            const packageToDelete = await db.removePackage(Package, resident)
+            return res.status(200).json(packageToDelete)
+        } catch (error) {
+            res.status(500).json({ error: error })
+        }
+    }
 }
 
 
