@@ -25,7 +25,7 @@ class userData {
                     const password = hash
                     db.addUser(username, password)
 
-                    return Response.responseOkCreated(res, user)
+                    return Response.responseOkUserCreated(res, user)
                 })
             }
         } catch (error) {

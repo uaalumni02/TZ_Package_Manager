@@ -122,13 +122,12 @@ export const addUser = async (username, password) => {
   return new User(user).save()
     .then(result => {
       const { _id, username } = result;
-      tokenData({id: _id, username})
+      tokenData({ id: _id, username })
     })
     .catch(error => {
       return { error }
     })
 }
-
 
 export const getAllUsers = async model => {
   try {

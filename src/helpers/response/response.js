@@ -40,11 +40,19 @@ const responseBadAuth = (res) => {
     });
 }
 
+const responseOkUserCreated = (res) => {
+    return res.status(201).json({
+        success: true,
+        message: "user successfully added",
+    });
+}
+
 export {
     responseBadRquest,
     responseNotFound,
     responseOkCreated,
     responseOk,
     responseConflict,
-    responseBadAuth
+    responseBadAuth,
+    responseOkUserCreated
 }
