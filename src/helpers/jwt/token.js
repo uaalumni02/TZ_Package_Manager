@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 const { JWT_KEY } = process.env;
 
+//use this in controller
 const sign = payload => {
   return jwt.sign(payload, JWT_KEY, { expiresIn: '60d' });
 }

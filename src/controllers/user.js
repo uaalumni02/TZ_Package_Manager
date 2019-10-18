@@ -8,6 +8,8 @@ import * as Response from '../helpers/response/response';
 
 import * as db from '../db/db';
 
+import userPayload from '../helpers/jwt/token'
+
 class userData {
     static async addUser(req, res) {
         const username = req.body.username
@@ -21,7 +23,7 @@ class userData {
                         return res.status(500).json({
                             error: err
                         });
-                    } 
+                    }
                     const password = hash
                     db.addUser(username, password)
 
@@ -44,16 +46,7 @@ class userData {
                     return Response.responseBadAuth(res, user)
                 }
                 if (result) {
-                    const token = jwt.sign(
-                        {
-                            username: user[0].username,
-                            userId: user[0]._id
-                        },
-                        process.env.JWT_KEY,
-                        {
-                            expiresIn: '365d'
-                        }
-                    );
+                    const token = userPayload.sign({ username: user[0].username, userId: user[0]._id })
                     return res.status(200).json({
                         token: token,
                         userId: user[0]._id

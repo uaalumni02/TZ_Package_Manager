@@ -117,6 +117,14 @@ export const findUser = async (model, username) => {
   }
 }
 
+
+// export const saveUser = (model, user) => {
+//   const user = await new model(user);
+//   return user;
+// }
+
+// saveUser(User, req.body) in controller
+
 export const addUser = async (username, password) => {
   const user = { username, password };
   return new User(user).save()
