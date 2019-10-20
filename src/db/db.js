@@ -1,5 +1,3 @@
-import User from '../models/user';
-
 export const addResidents = async (model, data) => {
   const newResident = new model({ ...data });
   return newResident.save()
@@ -117,26 +115,17 @@ export const findUser = async (model, username) => {
   }
 }
 
-
-// export const saveUser = (model, user) => {
-//   const user = await new model(user);
-//   return user;
-// }
-
-// saveUser(User, req.body) in controller
-
-export const addUser = async (username, password) => {
-  const user = { username, password };
-  return new User(user).save()
-    .then(result => {
-      const { _id, username } = result;
-      tokenData({ id: _id, username })
+export const addUser = async (model, user) => {
+  const newUser = new model({ ...user});
+  return newUser.save()
+    .then(res => {
+      const { username, password } = res, userData = { username, password }
+      return userData
     })
     .catch(error => {
       return { error }
     })
 }
-
 export const getAllUsers = async model => {
   try {
     const allUsers = await model.find({});

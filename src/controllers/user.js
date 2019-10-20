@@ -25,8 +25,7 @@ class userData {
                         });
                     }
                     const password = hash
-                    db.addUser(username, password)
-
+                    db.addUser(User, req.body, password)
                     return Response.responseOkUserCreated(res, user)
                 })
             }
