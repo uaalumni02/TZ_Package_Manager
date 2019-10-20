@@ -8,7 +8,7 @@ const UserSchema = Schema({
     {
         type: String,
         required: [true, 'Please enter valid username'],
-        validate: nameValidator
+        validate: [nameValidator, 'Please enter valid username'],
     },
     password:
     {
@@ -20,11 +20,5 @@ const UserSchema = Schema({
         select: false
     },
 });
-
-// UserSchema.pre('save', () => {
-//     // Do your hashing here 
-//     this.password = hash(password);
-//     return this;
-// });
 
 export default mongoose.model('User', UserSchema);

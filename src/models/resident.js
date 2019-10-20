@@ -9,7 +9,7 @@ const residentInformationSchema = Schema({
     required: [true, 'name is required'],
     min: 2,
     max: 12,
-    validate: [validate.isValidResidentName, 'Please enter valid patient name'],
+    validate: [validate.isValidResidentName, 'Please enter valid resident name'],
   },
   email: {
     type: String,
