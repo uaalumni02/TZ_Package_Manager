@@ -11,6 +11,8 @@ mongoose.Promise = global.Promise
 
 const port = process.env.PORT || 3000;
 
+const router = express.Router();
+
 //import routes
 import residentRoutes from './routes/resident.route'
 import userRoutes from './routes/user.route';
@@ -42,10 +44,12 @@ if (process.env.NODE_ENV == "test") {
 }
 
 //middleware to utilize routes
-app.use('/api/resident', residentRoutes);
-app.use('/api/user', userRoutes);
-app.use('/api/company', companyRoutes);
-app.use('/api/package', packageRoutes);
+router.use('/resident', residentRoutes);
+router.use('/user', userRoutes);
+router.use('/company', companyRoutes);
+router.use('/package', packageRoutes);
+
+app.use('/api', router);
 
 app.listen(port, () => log('server is running'));
 export default app;
