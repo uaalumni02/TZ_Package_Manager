@@ -12,7 +12,7 @@ import userPayload from '../helpers/jwt/token'
 
 class userData {
     static async addUser(req, res) {
-        const username = req.body.username
+        const username = req.body.username;
         try {
             const user = await db.findUser(User, username)
             if (user.length >= 1) {
@@ -24,8 +24,8 @@ class userData {
                             error: err
                         });
                     }
-                    const password = hash
-                    db.addUser(User, req.body, password)
+                    req.body.password = hash
+                    db.saveUser(User, req.body)
                     return Response.responseOkUserCreated(res, user)
                 })
             }

@@ -115,8 +115,9 @@ export const findUser = async (model, username) => {
   }
 }
 
-export const addUser = async (model, user) => {
-  const newUser = new model({ ...user});
+export const saveUser = async (model, user) => {
+  const newUser = new model({ ...user });
+  console.log(newUser)
   return newUser.save()
     .then(res => {
       const { username, password } = res, userData = { username, password }
