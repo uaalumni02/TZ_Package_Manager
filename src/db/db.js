@@ -1,153 +1,157 @@
-export const addResidents = async (model, data) => {
-  const newResident = new model({ ...data });
-  return newResident.save()
-    .then(res => {
-      const { name, email, phone } = res, residentData = { name, email, phone }
-      return residentData
-    })
-    .catch(error => {
-      return { error }
-    })
-}
-export const getAllResidents = async model => {
-  try {
-    const allResidents = await model.find({});
-    return allResidents
-  } catch (error) {
-    throw error;
+
+class Db {
+  static async addResidents(model, data) {
+    const newResident = new model({ ...data });
+    return newResident.save()
+      .then(res => {
+        const { name, email, phone } = res,
+          residentData = { name, email, phone }
+        return residentData
+      })
+      .catch(error => {
+        return { error }
+      })
   }
-}
-export const getResidentById = async (model, id) => {
-  try {
-    const resident = await model.findById(id)
-    return resident
-  } catch (error) {
-    throw error;
+  static async getAllResidents(model) {
+    try {
+      const allResidents = await model.find({});
+      return allResidents
+    } catch (error) {
+      throw error;
+    }
   }
-}
-export const editResident = async (model, data) => {
-  try {
-    const editResident = await model.update({ ...data })
-    return editResident
-  } catch (error) {
-    throw error
+  static async getResidentById(model, id) {
+    try {
+      const resident = await model.findById(id)
+      return resident
+    } catch (error) {
+      throw error;
+    }
   }
-}
-export const addCompany = async (model, data) => {
-  const newDelivery = new model({ ...data });
-  return newDelivery.save()
-    .then(res => {
-      const { companyName } = res, deliveryData = { companyName }
-      return deliveryData
-    })
-    .catch(error => {
-      return { error }
-    })
+  static async editResident(model, data) {
+    try {
+      const editResident = await model.update({ ...data })
+      return editResident
+    } catch (error) {
+      throw error
+    }
+  }
+  static async addCompany(model, data) {
+    const newDelivery = new model({ ...data });
+    return newDelivery.save()
+      .then(res => {
+        const { companyName } = res, deliveryData = { companyName }
+        return deliveryData
+      })
+      .catch(error => {
+        return { error }
+      })
+  }
+
+  static async getAllCompanies(model) {
+    try {
+      const allDeliverers = await model.find({});
+      return allDeliverers
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async getCompanyById(model, id) {
+    try {
+      const deliverer = await model.findById(id)
+      return deliverer
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async addPackage(model, data) {
+    const newPackage = new model({ ...data });
+    return newPackage.save()
+      .then(res => {
+        const { deliveryDate, deliveryTime, additionalInfo, name, companyName } = res, packageData = { res }
+        return packageData
+      })
+      .catch(error => {
+        return { error }
+      })
+  }
+  static async getAllPackages(model) {
+    try {
+      const allPackages = await model.find({}).populate('name companyName').exec()
+      return allPackages
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async getPackageByResident(model, name) {
+    try {
+      const residentPackage = await model.find({ name }).populate('name companyName').exec()
+      return residentPackage
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async removePackage(model, id) {
+    try {
+      const deletePackage = await model.findOneAndDelete({ _id: id })
+      return deletePackage
+    } catch (error) {
+      throw error
+    }
+  }
+  static async getPackageByDate(model, deliveryDate) {
+    try {
+      const packages = await model.find({ deliveryDate })
+      return packages
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async findUser(model, username) {
+    try {
+      const user = await model.find({ username })
+      return user
+    } catch (error) {
+      throw error;
+    }
+  }
+  //make shorter; can use await; dont need .then
+  static async saveUser(model, user) {
+    const newUser = new model({ ...user });
+    return newUser.save()
+      .then(res => {
+        const { username, password } = res, userData = { username, password }
+        return userData
+      })
+      .catch(error => {
+        return { error }
+      })
+  }
+  static async getAllUsers(model) {
+    try {
+      const allUsers = await model.find({});
+      return allUsers
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async getUserById(model, id) {
+    try {
+      const user = await model.findById(id)
+      return user
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async removeUser(model, id) {
+    try {
+      const deleteUser = await model.findOneAndDelete({ _id: id })
+      return deleteUser
+    } catch (error) {
+      throw error
+    }
+  }
 }
 
-export const getAllCompanies = async model => {
-  try {
-    const allDeliverers = await model.find({});
-    return allDeliverers
-  } catch (error) {
-    throw error;
-  }
-}
-export const getCompanyById = async (model, id) => {
-  try {
-    const deliverer = await model.findById(id)
-    return deliverer
-  } catch (error) {
-    throw error;
-  }
-}
-export const addPackage = async (model, data) => {
-  const newPackage = new model({ ...data });
-  return newPackage.save()
-    .then(res => {
-      const { deliveryDate, deliveryTime, additionalInfo, name, companyName } = res, packageData = { res }
-      return packageData
-    })
-    .catch(error => {
-      return { error }
-    })
-}
-export const getAllPackages = async model => {
-  try {
-    const allPackages = await model.find({}).populate('name companyName').exec()
-    return allPackages
-  } catch (error) {
-    throw error;
-  }
-}
-export const getPackageByResident = async (model, name) => {
-  try {
-    const residentPackage = await model.find({ name }).populate('name companyName').exec()
-    return residentPackage
-  } catch (error) {
-    throw error;
-  }
-}
-export const removePackage = async (model, id) => {
-  try {
-    const deletePackage = await model.findOneAndDelete({ _id: id })
-    return deletePackage
-  } catch (error) {
-    throw error
-  }
-}
-export const getPackageByDate = async (model, deliveryDate) => {
-  console.log(model)
-  try {
-    const packages = await model.find({ deliveryDate })
-    return packages
-  } catch (error) {
-    throw error;
-  }
-}
-
-export const findUser = async (model, username) => {
-  try {
-    const user = await model.find({ username })
-    return user
-  } catch (error) {
-    throw error;
-  }
-}
-
-export const saveUser = async (model, user) => {
-  const newUser = new model({ ...user });
-  console.log(newUser)
-  return newUser.save()
-    .then(res => {
-      const { username, password } = res, userData = { username, password }
-      return userData
-    })
-    .catch(error => {
-      return { error }
-    })
-}
-export const getAllUsers = async model => {
-  try {
-    const allUsers = await model.find({});
-    return allUsers
-  } catch (error) {
-    throw error;
-  }
-}
-export const getUserById = async (model, id) => {
-  try {
-    const user = await model.findById(id)
-    return user
-  } catch (error) {
-    throw error;
-  }
-}
-export const removeUser = async (model, id) => {
-  try {
-    const deleteUser = await model.findOneAndDelete({ _id: id })
-    return deleteUser
-  } catch (error) {
-    throw error
-  }
-}
+export default Db;

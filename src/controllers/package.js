@@ -1,6 +1,6 @@
 import moment from 'moment';
 import Package from '../models/package';
-import * as db from '../db/db';
+import Db from '../db/db';
 import * as Response from '../helpers/response/response';
 
 import schema from '../schema/package';
@@ -13,7 +13,7 @@ class PackageData {
         try {
             const result = await schema.validateAsync(packageData);
             if (!result.error) {
-                const packageInfo = await db.addPackage(Package, packageData)
+                const packageInfo = await Db.addPackage(Package, packageData)
                 return Response.responseOkCreated(res, packageInfo)
             }
         } catch (error) {
@@ -22,7 +22,7 @@ class PackageData {
     }
     static async getAllPackages(req, res) {
         try {
-            const allPackages = await db.getAllPackages(Package)
+            const allPackages = await Db.getAllPackages(Package)
             return res.status(200).json(allPackages)
         } catch (error) {
             res.status(500).json({ error: error })
@@ -31,7 +31,7 @@ class PackageData {
     static async getPackageByResident(req, res) {
         const { resident } = req.params;
         try {
-            const packageByResident = await db.getPackageByResident(Package, resident)
+            const packageByResident = await Db.getPackageByResident(Package, resident)
             return res.status(200).json(packageByResident)
         } catch (error) {
             res.status(500).json({ error: error })
@@ -40,7 +40,7 @@ class PackageData {
     static async deletePackage(req, res) {
         const { resident } = req.params;
         try {
-            const packageToDelete = await db.removePackage(Package, resident)
+            const packageToDelete = await Db.removePackage(Package, resident)
             return res.status(200).json(packageToDelete)
         } catch (error) {
             res.status(500).json({ error: error })
@@ -49,7 +49,7 @@ class PackageData {
     static async getPackageByDate(req, res) {
         const { deliveryDate } = req.params;
         try {
-            const packageByDate = await db.getPackageByDate(Package, deliveryDate)
+            const packageByDate = await Db.getPackageByDate(Package, deliveryDate)
             return res.status(200).json(packageByDate)
         } catch (error) {
             res.status(500).json({ error: error })

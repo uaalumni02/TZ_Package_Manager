@@ -6,15 +6,15 @@ import User from '../models/user';
 
 import * as Response from '../helpers/response/response';
 
-import * as db from '../db/db';
+import Db from '../db/db';
 
-import userPayload from '../helpers/jwt/token'
+import userPayload from '../helpers/jwt/token';
 
 class userData {
     static async addUser(req, res) {
         const username = req.body.username;
         try {
-            const user = await db.findUser(User, username)
+            const user = await Db.findUser(User, username)
             if (user.length >= 1) {
                 return Response.responseConflict(res, user)
             } else {
@@ -25,7 +25,7 @@ class userData {
                         });
                     }
                     req.body.password = hash
-                    db.saveUser(User, req.body)
+                    Db.saveUser(User, req.body)
                     return Response.responseOkUserCreated(res, user)
                 })
             }
@@ -36,7 +36,7 @@ class userData {
     static async userLogin(req, res) {
         const username = req.body.username
         try {
-            const user = await db.findUser(User, username)
+            const user = await Db.findUser(User, username)
             if (user.length < 1) {
                 return Response.responseBadAuth(res, user)
             }
@@ -60,7 +60,7 @@ class userData {
     }
     static async getAllUsers(req, res) {
         try {
-            const allUsers = await db.getAllUsers(User)
+            const allUsers = await Db.getAllUsers(User)
             return Response.responseOk(res, allUsers)
         } catch (error) {
             return Response.responseNotFound(res)
@@ -69,7 +69,7 @@ class userData {
     static async getUserById(req, res) {
         const { id } = req.params;
         try {
-            const userById = await db.getUserById(User, id)
+            const userById = await Db.getUserById(User, id)
             return Response.responseOk(res, userById)
         } catch (error) {
             return Response.responseNotFound(res)
@@ -78,7 +78,7 @@ class userData {
     static async deleteUser(req, res) {
         const { id } = req.params;
         try {
-            const userToDelete = await db.removeUser(User, id)
+            const userToDelete = await Db.removeUser(User, id)
             return res.status(200).json(userToDelete)
         } catch (error) {
             res.status(500).json({ error: error })
