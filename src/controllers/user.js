@@ -8,7 +8,10 @@ import * as Response from '../helpers/response/response';
 
 import Db from '../db/db';
 
-import userToken from '../helpers/jwt/token';
+import Token from '../helpers/jwt/token';
+
+import PswdHash from '../helpers/bcrypt/bcrypt'
+
 
 class userData {
     static async addUser(req, res) {
@@ -18,16 +21,10 @@ class userData {
             if (user.length >= 1) {
                 return Response.responseConflict(res, user)
             } else {
-                bcrypt.hash(req.body.password, 10, (err, hash) => {
-                    if (err) {
-                        return res.status(500).json({
-                            error: err
-                        });
-                    }
-                    req.body.password = hash
-                    Db.saveUser(User, req.body)
-                    return Response.responseOkUserCreated(res, user)
-                })
+                const password = await PswdHash.hashPassword(req.body.password, 10);
+                const user = { ...req.body, password };
+                const newUser = Db.saveUser(User, user)
+                return Response.responseOkUserCreated(res, newUser);
             }
         } catch (error) {
             return Response.responseBadRquest(res)
@@ -45,7 +42,7 @@ class userData {
                     return Response.responseBadAuth(res, user)
                 }
                 if (result) {
-                    const token = userToken.sign({ username: user[0].username, userId: user[0]._id })
+                    const token = Token.sign({ username: user[0].username, userId: user[0]._id })
                     return res.status(200).json({
                         token: token,
                         userId: user[0]._id
