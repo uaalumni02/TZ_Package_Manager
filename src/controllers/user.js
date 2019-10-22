@@ -45,11 +45,9 @@ class userData {
                     token: token,
                     userId: user[0]._id
                 });
-            } else {
-                return Response.responseBadAuth(res, user)
             }
         } catch (error) {
-            return Response.responseNotFound(res)
+            return Response.responseBadAuth(res, user)
         }
     }
     static async getAllUsers(req, res) {
