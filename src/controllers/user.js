@@ -37,20 +37,17 @@ class userData {
             if (user.length < 1) {
                 return Response.responseBadAuth(res, user)
             }
-            bcrypt.compare(req.body.password, user[0].password, (err, result) => {
-                if (err) {
-                    return Response.responseBadAuth(res, user)
-                }
-                if (result) {
-                    const token = Token.sign({ username: user[0].username, userId: user[0]._id })
-                    return res.status(200).json({
-                        token: token,
-                        userId: user[0]._id
-                    });
-                }
+            const compare = await PswdHash.compareHash(req.body.password, user[0].password)
+            const result = { ...req.body, compare };
+            if (result) {
+                const token = Token.sign({ username: user[0].username, userId: user[0]._id })
+                return res.status(200).json({
+                    token: token,
+                    userId: user[0]._id
+                });
+            } else {
                 return Response.responseBadAuth(res, user)
-            })
-
+            }
         } catch (error) {
             return Response.responseNotFound(res)
         }
