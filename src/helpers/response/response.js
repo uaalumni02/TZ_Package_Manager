@@ -47,6 +47,13 @@ const responseOkUserCreated = (res) => {
     });
 }
 
+const responseServerError = (res) => {
+    return res.status(500).json({
+        success: true,
+        message: "internal server error",
+    });
+}
+
 export {
     responseBadRquest,
     responseNotFound,
@@ -54,5 +61,6 @@ export {
     responseOk,
     responseConflict,
     responseBadAuth,
-    responseOkUserCreated
+    responseOkUserCreated,
+    responseServerError
 }

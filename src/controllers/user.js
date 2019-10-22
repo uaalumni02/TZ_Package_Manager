@@ -76,9 +76,9 @@ class userData {
         const { id } = req.params;
         try {
             const userToDelete = await Db.removeUser(User, id)
-            return res.status(200).json(userToDelete)
+            return Response.responseOk(res, userToDelete)
         } catch (error) {
-            res.status(500).json({ error: error })
+            return Response.responseServerError(res)
         }
     }
 }
