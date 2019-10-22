@@ -4,9 +4,7 @@ class Db {
     const newResident = new model({ ...data });
     return newResident.save()
       .then(res => {
-        const { name, email, phone } = res,
-          residentData = { name, email, phone }
-        return residentData
+        return res
       })
       .catch(error => {
         return { error }
@@ -40,8 +38,7 @@ class Db {
     const newDelivery = new model({ ...data });
     return newDelivery.save()
       .then(res => {
-        const { companyName } = res, deliveryData = { companyName }
-        return deliveryData
+        return res
       })
       .catch(error => {
         return { error }
@@ -68,8 +65,7 @@ class Db {
     const newPackage = new model({ ...data });
     return newPackage.save()
       .then(res => {
-        const { deliveryDate, deliveryTime, additionalInfo, name, companyName } = res, packageData = { res }
-        return packageData
+        return res
       })
       .catch(error => {
         return { error }
@@ -116,13 +112,12 @@ class Db {
       throw error;
     }
   }
-  //make shorter; can use await; dont need .then
+
   static async saveUser(model, user) {
     const newUser = new model({ ...user });
     return newUser.save()
       .then(res => {
-        const { username, password } = res, userData = { username, password }
-        return userData
+        return res
       })
       .catch(error => {
         return { error }
