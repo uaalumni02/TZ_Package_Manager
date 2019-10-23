@@ -42,10 +42,7 @@ class userData {
             const result = compare;
             if (result) {
                 const token = Token.sign({ username: user[0].username, userId: user[0]._id })
-                return res.status(200).json({
-                    token: token,
-                    userId: user[0]._id
-                });
+                return Response.responseOk(res, token)
             } else {
                 return Response.responseBadAuth(res, user)
             }
