@@ -13,7 +13,7 @@ class CompanyData {
             if (!result.error) {
                 const companyName = await Db.addCompany(Company, companyData)
                 return Response.responseOkCreated(res, companyName)
-            } // bad reques
+            } 
         } catch (error) {
             return Response.responseBadRquest(res)
         }
@@ -21,11 +21,9 @@ class CompanyData {
     static async allCompanies(req, res) {
         try {
             const allCompanyNames = await Db.getAllCompanies(Company)
-            //check by length to see if im getting something back
             return Response.responseOk(res, allCompanyNames)
         } catch (error) {
-            // server error 
-            return Response.responseNotFound(res)
+            return Response.responseServerError(res)
         }
     }
     static async getCompanyById(req, res) {

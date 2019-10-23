@@ -1,7 +1,7 @@
 
 class Db {
   static async addResidents(model, data) {
-    const newResident = new model({ ...data });
+    const newResident = await new model({ ...data });
     return newResident.save()
       .then(res => {
         return res
@@ -35,7 +35,7 @@ class Db {
     }
   }
   static async addCompany(model, data) {
-    const newDelivery = new model({ ...data });
+    const newDelivery = await new model({ ...data });
     return newDelivery.save()
       .then(res => {
         return res
@@ -62,7 +62,7 @@ class Db {
     }
   }
   static async addPackage(model, data) {
-    const newPackage = new model({ ...data });
+    const newPackage = await new model({ ...data });
     return newPackage.save()
       .then(res => {
         return res
@@ -73,7 +73,8 @@ class Db {
   }
   static async getAllPackages(model) {
     try {
-      const allPackages = await model.find({}).populate('name companyName').exec()
+      const allPackages = await model.find({})
+        .populate('name companyName').exec()
       return allPackages
     } catch (error) {
       throw error;
@@ -81,7 +82,8 @@ class Db {
   }
   static async getPackageByResident(model, name) {
     try {
-      const residentPackage = await model.find({ name }).populate('name companyName').exec()
+      const residentPackage = await model.find({ name })
+        .populate('name companyName').exec()
       return residentPackage
     } catch (error) {
       throw error;
@@ -114,7 +116,7 @@ class Db {
   }
 
   static async saveUser(model, user) {
-    const newUser = new model({ ...user });
+    const newUser = await new model({ ...user });
     return newUser.save()
       .then(res => {
         return res

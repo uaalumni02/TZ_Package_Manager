@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+
 import jwt from 'jsonwebtoken';
 
 //import model
@@ -10,8 +10,9 @@ import Db from '../db/db';
 
 import Token from '../helpers/jwt/token';
 
-import PswdHash from '../helpers/bcrypt/bcrypt'
+import bcrypt from '../helpers/bcrypt/bcrypt'
 
+import PswdHash from '../helpers/bcrypt/bcrypt'
 
 class userData {
     static async addUser(req, res) {
@@ -37,17 +38,19 @@ class userData {
             if (user.length < 1) {
                 return Response.responseBadAuth(res, user)
             }
-            const compare = await PswdHash.compareHash(req.body.password, user[0].password)
-            const result = { ...req.body, compare };
+            const compare = await bcrypt.compareHash(req.body.password, user[0].password)
+            const result = compare;
             if (result) {
                 const token = Token.sign({ username: user[0].username, userId: user[0]._id })
                 return res.status(200).json({
                     token: token,
                     userId: user[0]._id
                 });
+            } else {
+                return Response.responseBadAuth(res, user)
             }
         } catch (error) {
-            return Response.responseBadAuth(res, user)
+            return Response.responseServerError(res, user)
         }
     }
     static async getAllUsers(req, res) {
