@@ -1,29 +1,21 @@
-
-import jwt from 'jsonwebtoken';
-
-//import model
+import Db from '../db/db';
 import User from '../models/user';
 
+import Token from '../helpers/jwt/token';
+import bcrypt from '../helpers/bcrypt/bcrypt'
 import * as Response from '../helpers/response/response';
 
-import Db from '../db/db';
-
-import Token from '../helpers/jwt/token';
-
-import bcrypt from '../helpers/bcrypt/bcrypt'
-
-import PswdHash from '../helpers/bcrypt/bcrypt'
 
 class userData {
     static async addUser(req, res) {
-        const username = req.body.username;
+        const { username, password } = req.body;
         try {
             const user = await Db.findUser(User, username)
-            if (user.length >= 1) {
+            if (user != null) {
                 return Response.responseConflict(res, user)
             } else {
-                const password = await PswdHash.hashPassword(req.body.password, 10);
-                const user = { ...req.body, password };
+                const hash = await bcrypt.hashPassword(password, 10);
+                const user = { ...req.body, password: hash };
                 const newUser = Db.saveUser(User, user)
                 return Response.responseOkUserCreated(res, newUser);
             }
@@ -35,13 +27,12 @@ class userData {
         const username = req.body.username
         try {
             const user = await Db.findUser(User, username)
-            if (user.length < 1) {
+            if (user == null) {
                 return Response.responseBadAuth(res, user)
             }
-            const compare = await bcrypt.compareHash(req.body.password, user[0].password)
-            const result = compare;
-            if (result) {
-                const token = Token.sign({ username: user[0].username, userId: user[0]._id })
+            const isSamePassword = await bcrypt.comparePassword(req.body.password, user.password)
+            if (isSamePassword) {
+                const token = Token.sign({ username: user.username, userId: user._id })
                 return Response.responseOk(res, token)
             } else {
                 return Response.responseBadAuth(res, user)

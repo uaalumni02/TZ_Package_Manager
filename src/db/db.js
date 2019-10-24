@@ -1,4 +1,3 @@
-
 class Db {
   static async addResidents(model, data) {
     const newResident = await new model({ ...data });
@@ -35,7 +34,7 @@ class Db {
     }
   }
   static async addCompany(model, data) {
-    const newDelivery = await new model({ ...data });
+    const newDelivery = await new model({ ...data }); //fix this line dont need promise use await on return ; nohing happening on this line ; do other functions also
     return newDelivery.save()
       .then(res => {
         return res
@@ -108,7 +107,7 @@ class Db {
 
   static async findUser(model, username) {
     try {
-      const user = await model.find({ username })
+      const user = await model.findOne({ username: username })
       return user
     } catch (error) {
       throw error;

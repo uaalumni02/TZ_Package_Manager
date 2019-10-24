@@ -11,7 +11,7 @@ const hashPassword = async (password, rounds) => {
   })
 }
 
-const compareHash = async (password, hash) => {
+const comparePassword = async (password, hash) => {
   return new Promise((resolve, error) => {
     return bcrypt.compare(password, hash, (err, success) => {
       if (err) 
@@ -23,5 +23,5 @@ const compareHash = async (password, hash) => {
 
 export default {
   hashPassword,
-  compareHash
+  comparePassword
 };
