@@ -24,13 +24,13 @@ class userData {
         }
     }
     static async userLogin(req, res) {
-        const username = req.body.username
+        const { username, password } = req.body;
         try {
             const user = await Db.findUser(User, username)
             if (user == null) {
                 return Response.responseBadAuth(res, user)
             }
-            const isSamePassword = await bcrypt.comparePassword(req.body.password, user.password)
+            const isSamePassword = await bcrypt.comparePassword(password, user.password)
             if (isSamePassword) {
                 const token = Token.sign({ username: user.username, userId: user._id })
                 return Response.responseOk(res, token)
