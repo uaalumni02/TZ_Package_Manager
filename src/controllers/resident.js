@@ -1,8 +1,7 @@
-import Resident from '../models/resident';
 import Db from '../db/db';
+import Resident from '../models/resident';
+
 import * as Response from '../helpers/response/response';
-
-
 import schema from '../schema/resident';
 
 class ResidentData {

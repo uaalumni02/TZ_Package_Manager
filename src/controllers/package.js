@@ -1,9 +1,10 @@
-import moment from 'moment';
-import Package from '../models/package';
 import Db from '../db/db';
-import * as Response from '../helpers/response/response';
+import Package from '../models/package';
 
+import * as Response from '../helpers/response/response';
 import schema from '../schema/package';
+
+import moment from 'moment';
 
 class PackageData {
     static async addPackage(req, res) {

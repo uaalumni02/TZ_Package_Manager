@@ -1,9 +1,8 @@
-import Company from '../models/company';
 import  Db from '../db/db';
-import * as Response from '../helpers/response/response';
-
+import Company from '../models/company';
 
 import schema from '../schema/company';
+import * as Response from '../helpers/response/response';
 
 class CompanyData {
     static async addCompanyName(req, res) {
