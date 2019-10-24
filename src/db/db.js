@@ -1,13 +1,11 @@
 class Db {
   static async addResidents(model, data) {
-    const newResident = await new model({ ...data });
-    return newResident.save()
-      .then(res => {
-        return res
-      })
-      .catch(error => {
-        return { error }
-      })
+    try {
+      const newResident = await model({ ...data });
+      return newResident.save()
+    } catch (error) {
+      throw error;
+    }
   }
   static async getAllResidents(model) {
     try {
@@ -34,16 +32,13 @@ class Db {
     }
   }
   static async addCompany(model, data) {
-    const newDelivery = await new model({ ...data }); //fix this line dont need promise use await on return ; nohing happening on this line ; do other functions also
-    return newDelivery.save()
-      .then(res => {
-        return res
-      })
-      .catch(error => {
-        return { error }
-      })
+    try {
+      const newDelivery = await model({ ...data })
+      return newDelivery.save();
+    } catch (error) {
+      throw error;
+    }
   }
-
   static async getAllCompanies(model) {
     try {
       const allDeliverers = await model.find({});
@@ -61,14 +56,12 @@ class Db {
     }
   }
   static async addPackage(model, data) {
-    const newPackage = await new model({ ...data });
-    return newPackage.save()
-      .then(res => {
-        return res
-      })
-      .catch(error => {
-        return { error }
-      })
+    try {
+      const newPackage = await model({ ...data });
+      return newPackage.save()
+    } catch (error) {
+      throw error;
+    }
   }
   static async getAllPackages(model) {
     try {
@@ -104,7 +97,6 @@ class Db {
       throw error;
     }
   }
-
   static async findUser(model, username) {
     try {
       const user = await model.findOne({ username: username })
@@ -113,16 +105,13 @@ class Db {
       throw error;
     }
   }
-
   static async saveUser(model, user) {
-    const newUser = await new model({ ...user });
-    return newUser.save()
-      .then(res => {
-        return res
-      })
-      .catch(error => {
-        return { error }
-      })
+    try {
+      const newUser = await model({ ...user });
+      return newUser.save();
+    } catch (error) {
+      throw error;
+    }
   }
   static async getAllUsers(model) {
     try {
