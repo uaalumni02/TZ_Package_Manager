@@ -3,6 +3,7 @@ import User from '../models/user';
 
 import Token from '../helpers/jwt/token';
 import bcrypt from '../helpers/bcrypt/bcrypt'
+import schema from '../schema/user';
 import * as Response from '../helpers/response/response';
 
 
@@ -10,14 +11,17 @@ class userData {
     static async addUser(req, res) {
         const { username, password } = req.body;
         try {
-            const user = await Db.findUser(User, username)
-            if (user != null) {
-                return Response.responseConflict(res, user)
-            } else {
-                const hash = await bcrypt.hashPassword(password, 10);
-                const user = { ...req.body, password: hash };
-                const newUser = Db.saveUser(User, user)
-                return Response.responseOkUserCreated(res, newUser);
+            const result = await schema.validateAsync(req.body);
+            if (!result.error) {
+                const user = await Db.findUser(User, username)
+                if (user != null) {
+                    return Response.responseConflict(res, user)
+                } else {
+                    const hash = await bcrypt.hashPassword(password, 10);
+                    const user = { ...req.body, password: hash };
+                    const newUser = Db.saveUser(User, user)
+                    return Response.responseOkUserCreated(res, newUser);
+                }
             }
         } catch (error) {
             return Response.responseBadRquest(res)
@@ -26,14 +30,17 @@ class userData {
     static async userLogin(req, res) {
         const { username, password } = req.body;
         try {
-            const user = await Db.findUser(User, username)
-            if (user == null) {
-                return Response.responseBadAuth(res, user)
-            }
-            const isSamePassword = await bcrypt.comparePassword(password, user.password)
-            if (isSamePassword) {
-                const token = Token.sign({ username: user.username, userId: user._id })
-                return Response.responseOk(res, token)
+            const result = await schema.validateAsync(req.body);
+            if (!result.error) {
+                const user = await Db.findUser(User, username)
+                if (user == null) {
+                    return Response.responseBadAuth(res, user)
+                }
+                const isSamePassword = await bcrypt.comparePassword(password, user.password)
+                if (isSamePassword) {
+                    const token = Token.sign({ username: user.username, userId: user._id })
+                    return Response.responseOk(res, token)
+                }
             } else {
                 return Response.responseBadAuth(res, user)
             }
