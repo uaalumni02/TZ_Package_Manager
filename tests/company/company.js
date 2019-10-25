@@ -23,7 +23,7 @@ describe('Company', () => {
             .send(Mock.user)
             .end((error, response) => {
                 validAdminToken = response.body.token;
-                console.log(response)
+                console.log(Mock.user)
                 done();
             });
     });

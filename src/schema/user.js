@@ -8,7 +8,7 @@ const schema = Joi.object({
         .required(),
     password: Joi.string()
         .min(3)
-        .max(8)
+        .max(12)
 })
 
 export default schema
