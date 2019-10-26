@@ -19,12 +19,13 @@ class userData {
                 } else {
                     const hash = await bcrypt.hashPassword(password, 10);
                     const user = { ...req.body, password: hash };
-                    const newUser = Db.saveUser(User, user)
-                    return Response.responseOkUserCreated(res, newUser);
+                    const { username, _id: userId } = await Db.saveUser(User, user);
+                    const token = Token.sign({ username, userId })
+                    return Response.responseOkUserCreated(res, token);
                 }
             }
         } catch (error) {
-            return Response.responseBadRquest(res)
+            return Response.responseServerError(res)
         }
     }
     static async userLogin(req, res) {
