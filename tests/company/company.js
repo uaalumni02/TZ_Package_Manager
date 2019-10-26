@@ -47,7 +47,7 @@ describe('Company', () => {
     });
 
     describe('get company', () => {
-        it('should not get companies since no valid token', function (done) {
+        it('should not get companies since no valid token', (done) =>  {
             request(app)
                 .get(companyPath)
                 .expect(401, done);
