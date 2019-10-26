@@ -25,7 +25,7 @@ class Db {
   }
   static async editResident(model, data) {
     try {
-      const editResident = await model.update({ ...data })
+      const editResident = await model. findOneAndUpdate({ ...data })
       return editResident
     } catch (error) {
       throw error

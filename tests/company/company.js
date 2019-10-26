@@ -23,7 +23,6 @@ describe('Company', () => {
             .send(Mock.user)
             .end((error, response) => {
                 validAdminToken = response.body.token;
-                console.log(response.body)
                 done();
             });
     });
@@ -63,7 +62,7 @@ describe('Company', () => {
                     id = response.body.data[0]._id
                     response.body.should.be.a('object');
                     expect(response.body).to.have.nested.property('success').to.eql(true);
-                    expect(response.body).to.have.nested.property('data[0].name')
+                    expect(response.body).to.have.nested.property('data[0].companyName')
                     done();
                 });
         });
@@ -84,7 +83,7 @@ describe('Company', () => {
                 .end((err, response) => {
                     response.body.should.be.a('object');
                     expect(response.body).to.have.nested.property('success').to.eql(true);
-                    expect(response.body).to.have.nested.property('data.name')
+                    expect(response.body).to.have.nested.property('data.companyName')
                     done();
                 });
         });
