@@ -20,7 +20,7 @@ router.route('/')
   .get(checkAuth, userController.getAllUsers)
 
   router.route('/:id')
-  .delete(userController.deleteUser)
+  .delete(checkAuth, userController.deleteUser)
   .get(checkAuth, userController.getUserById)
 
 export default router;
