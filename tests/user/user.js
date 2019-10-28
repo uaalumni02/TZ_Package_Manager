@@ -79,7 +79,6 @@ describe('User', () => {
                     response.body.should.be.a('object')
                     expect(response.body).to.have.nested.property('success').to.eql(true);
                     expect(response.body).to.have.nested.property('data[0].username')
-                    expect(response.body).to.have.nested.property('data[0].password')
                     done();
                 });
         });
@@ -100,7 +99,6 @@ describe('User', () => {
                     response.body.should.be.a('object');
                     expect(response.body).to.have.nested.property('success').to.eql(true);
                     expect(response.body).to.have.nested.property('data.username')
-                    expect(response.body).to.have.nested.property('data.password')
                     done();
                 });
         });
@@ -121,8 +119,8 @@ describe('User', () => {
                 .end((err, response) => {
                     response.body.should.be.a('object');
                     expect(response.body).to.have.nested.property('success').to.eql(true);
-                    expect(response.body).to.have.nested.property('data.username')
-                    expect(response.body).to.have.nested.property('data.password')
+                    expect(response.body).to.have.nested.property('data').to.eql({})
+    
                     done();
                 });
         });

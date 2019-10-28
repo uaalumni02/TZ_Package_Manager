@@ -132,7 +132,7 @@ class Db {
   static async removeUser(model, id) {
     try {
       const deleteUser = await model.findOneAndDelete({ _id: id })
-      return deleteUser
+      return {}
     } catch (error) {
       throw error
     }
