@@ -16,6 +16,10 @@ const loginPath = '/api/user/login';
 let validAdminToken;
 let id;
 
+let testUser = Mock.user;
+
+// Get the 
+
 describe('User', () => {
     before(function (done) {
         this.timeout(20000);
@@ -23,6 +27,9 @@ describe('User', () => {
             .send(Mock.user)
             .end((error, response) => {
                 validAdminToken = response.body.token;
+                const { _id:id, token } = response.body;
+                // 
+                testUser = { ...testUser, id, token }
                 done();
             });
     });

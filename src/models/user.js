@@ -14,6 +14,7 @@ const UserSchema = Schema({
     {
         type: String,
         required: true,
+        select: false 
     },
     __v: {
         type: Number,
