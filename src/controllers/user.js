@@ -21,7 +21,8 @@ class userData {
                     const user = { ...req.body, password: hash };
                     const { username, _id: userId } = await Db.saveUser(User, user);
                     const token = Token.sign({ username, userId })
-                    return Response.responseOkUserCreated(res, token);
+                    const userData = { username, userId, token }
+                    return Response.responseOkUserCreated(res, userData);
                 }
             }
         } catch (error) {
@@ -40,7 +41,8 @@ class userData {
                 const isSamePassword = await bcrypt.comparePassword(password, user.password)
                 if (isSamePassword) {
                     const token = Token.sign({ username: user.username, userId: user._id })
-                    return Response.responseOk(res, token)
+                    const userData = { user, token }
+                    return Response.responseOk(res, userData)
                 }
             } else {
                 return Response.responseBadAuth(res, user)

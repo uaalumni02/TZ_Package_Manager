@@ -40,11 +40,11 @@ const responseBadAuth = (res) => {
     });
 }
 
-const responseOkUserCreated = (res, token) => {
+const responseOkUserCreated = (res, userdata) => {
     return res.status(201).json({
         success: true,
         message: "user successfully added",
-        token,
+        userdata,
     });
 }
 

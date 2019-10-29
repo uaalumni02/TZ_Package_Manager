@@ -4,6 +4,7 @@ import chaiHttp from 'chai-http';
 import request from 'supertest';
 import Mock from '../mock/index';
 import app from '../../src/server';
+import isValidUserName from '../../src/helpers/model/user';
 
 const http = request.agent(app);
 const { expect } = chai;
@@ -18,6 +19,13 @@ let id;
 
 let testUser = Mock.user;
 
+// {
+//     username,
+//     password,
+//     userId,
+//     token
+// }
+
 
 describe('User', () => {
     before(function (done) {
@@ -25,10 +33,11 @@ describe('User', () => {
         http.post(userPath)
             .send(Mock.user)
             .end((error, response) => {
+                console.log(response)
                 validAdminToken = response.body.token;
-                // const { _id:id, token } = response.body;
-            
-                // testUser = { ...testUser, id, token }
+                const { id: id, token } = response.body;
+                // Mock.user does not contain id; removed from above and below
+                testUser = { ...testUser, id, token }
                 done();
             });
     });
@@ -51,7 +60,7 @@ describe('User', () => {
         });
     });
     describe('login user', () => {
-        it('should not login user since no valid token', (done) => {
+        it('should not not return token', (done) => {
             request(app)
                 .post(loginPath)
                 .send(Mock.user)
@@ -59,12 +68,15 @@ describe('User', () => {
         });
     });
     describe('login user', () => {
-        it('should login user', (done) => {
+        it('should return token', (done) => {
             request(app)
                 .post(loginPath)
-                .set('Authorization', 'Bearer ' + validAdminToken)
-                .expect(201);
-            done()
+                .send(testUser)
+                .end((error, response) => {
+                    // console.log(testUser)
+                    console.log(response.body.message)
+                    done();
+                });
         });
     });
 
@@ -119,7 +131,7 @@ describe('User', () => {
                     response.body.should.be.a('object');
                     expect(response.body).to.have.nested.property('success').to.eql(true);
                     expect(response.body).to.have.nested.property('data').to.eql({})
-    
+
                     done();
                 });
         });
