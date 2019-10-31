@@ -45,10 +45,10 @@ class userData {
                     return Response.responseOk(res, userData)
                 }
             } else {
-                return Response.responseBadAuth(res, user)
+                return Response.responseBadAuth(res)
             }
         } catch (error) {
-            return Response.responseServerError(res, user)
+            return Response.responseServerError(res)
         }
     }
     static async getAllUsers(req, res) {

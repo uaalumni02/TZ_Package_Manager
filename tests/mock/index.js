@@ -4,6 +4,7 @@ let companyName = casual.random_element(['USPS', 'UPS', 'Amazon', 'Postmates', '
 let deliveryTime = casual.random_element(['9:00 am', '10:00 pm']);
 let deliveryDate = casual.random_element(['2019-10-24', '2019-10-26']);
 
+
 casual.define('user', () => {
   return {
     username: casual.username.replace(/[^a-zA-Z]/, '').slice(0, 6),

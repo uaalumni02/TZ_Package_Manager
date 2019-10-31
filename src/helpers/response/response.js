@@ -50,7 +50,7 @@ const responseOkUserCreated = (res, userdata) => {
 
 const responseServerError = (res) => {
     return res.status(500).json({
-        success: true,
+        success: false,
         message: "internal server error",
     });
 }

@@ -22,7 +22,7 @@ describe('Resident', () => {
         http.post(userPath)
             .send(Mock.user)
             .end((error, response) => {
-                validAdminToken = response.body.token;
+                validAdminToken = response.body.userdata.token;
                 done();
             });
     });

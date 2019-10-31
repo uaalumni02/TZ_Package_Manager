@@ -4,7 +4,6 @@ import chaiHttp from 'chai-http';
 import request from 'supertest';
 import Mock from '../mock/index';
 import app from '../../src/server';
-import isValidUserName from '../../src/helpers/model/user';
 
 const http = request.agent(app);
 const { expect } = chai;
@@ -14,29 +13,16 @@ chai.should()
 
 const userPath = '/api/user';
 const loginPath = '/api/user/login';
-let validAdminToken;
-let id;
 
 let testUser = Mock.user;
-
-// {
-//     username,
-//     password,
-//     userId,
-//     token
-// }
-
 
 describe('User', () => {
     before(function (done) {
         this.timeout(20000);
         http.post(userPath)
-            .send(Mock.user)
+            .send(testUser)
             .end((error, response) => {
-                console.log(response)
-                validAdminToken = response.body.token;
-                const { id: id, token } = response.body;
-                // Mock.user does not contain id; removed from above and below
+                const { userId: id, token } = response.body.userdata;
                 testUser = { ...testUser, id, token }
                 done();
             });
@@ -46,10 +32,11 @@ describe('User', () => {
             request(app)
                 .post(userPath)
                 .send(Mock.user)
-                .expect(201, done);
-            Mock.user.should.be.a('object')
-            expect(Mock.user).to.have.property('username');
-            expect(Mock.user).to.have.property('password');
+                .end((error, response) => {
+                    expect(response.body).to.have.nested.property('success').to.eql(true);
+                    done();
+                });
+
         });
     });
     describe('get user', () => {
@@ -60,21 +47,13 @@ describe('User', () => {
         });
     });
     describe('login user', () => {
-        it('should not not return token', (done) => {
-            request(app)
-                .post(loginPath)
-                .send(Mock.user)
-                .expect(401, done);
-        });
-    });
-    describe('login user', () => {
         it('should return token', (done) => {
+            const { username, password } = testUser
             request(app)
                 .post(loginPath)
-                .send(testUser)
+                .send({ username, password })
                 .end((error, response) => {
-                    // console.log(testUser)
-                    console.log(response.body.message)
+                    expect(response.body).to.have.nested.property('success').to.eql(true);
                     done();
                 });
         });
@@ -84,9 +63,8 @@ describe('User', () => {
         it('should get users since valid token', (done) => {
             chai.request(app)
                 .get(userPath)
-                .set('Authorization', 'Bearer ' + validAdminToken)
+                .set('Authorization', 'Bearer ' + testUser.token)
                 .end((err, response) => {
-                    id = response.body.data[0]._id
                     response.body.should.be.a('object')
                     expect(response.body).to.have.nested.property('success').to.eql(true);
                     expect(response.body).to.have.nested.property('data[0].username')
@@ -97,15 +75,15 @@ describe('User', () => {
     describe(' get user by Id', () => {
         it('should not get user by id since no valid token', (done) => {
             request(app)
-                .get('/api/user/' + id)
+                .get('/api/user/' + testUser.id)
                 .expect(401, done);
         });
     });
     describe(' get user by Id', () => {
         it('should get user by id since valid token', (done) => {
-            chai.request(app)
-                .get('/api/user/' + id)
-                .set('Authorization', 'Bearer ' + validAdminToken)
+            request(app)
+                .get('/api/user/' + testUser.id)
+                .set('Authorization', 'Bearer ' + testUser.token)
                 .end((err, response) => {
                     response.body.should.be.a('object');
                     expect(response.body).to.have.nested.property('success').to.eql(true);
@@ -117,7 +95,7 @@ describe('User', () => {
     describe(' delete user by id', () => {
         it('should not delete by id since no valid token', (done) => {
             request(app)
-                .delete('/api/user/' + id)
+                .delete('/api/user/' + testUser.id)
                 .expect(401, done);
         });
     });
@@ -125,8 +103,8 @@ describe('User', () => {
     describe(' delete user by id', () => {
         it('should delete by id since valid token', (done) => {
             request(app)
-                .delete('/api/user/' + id)
-                .set('Authorization', 'Bearer ' + validAdminToken)
+                .delete('/api/user/' + testUser.id)
+                .set('Authorization', 'Bearer ' + testUser.token)
                 .end((err, response) => {
                     response.body.should.be.a('object');
                     expect(response.body).to.have.nested.property('success').to.eql(true);
