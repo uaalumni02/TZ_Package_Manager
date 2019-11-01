@@ -14,7 +14,7 @@ class ResidentData {
                 return Response.responseOkCreated(res, addResidents)
             }
         } catch (error) {
-            return Response.responseBadRquest(res)
+            return Response.responseServerError(res)
         }
     }
     static async getAllResidents(req, res) {
@@ -22,7 +22,7 @@ class ResidentData {
             const allResidents = await Db.getAllResidents(Resident)
             return Response.responseOk(res, allResidents)
         } catch (error) {
-            return Response.responseNotFound(res)
+            return Response.responseServerError(res)
         }
     }
     static async getResidentById(req, res) {
@@ -41,10 +41,10 @@ class ResidentData {
             const result = await schema.validateAsync(updateResident);
             if (!result.error) {
                 const residentToEdit = await Db.editResident(Resident, updateResident)
-                return Response.responseOkCreated(res, residentToEdit)
+                return Response.responseOk(res, residentToEdit)
             }
         } catch (error) {
-            return Response.responseBadRquest(res)
+            return Response.responseServerError(res)
         }
     }
 }

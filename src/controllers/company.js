@@ -1,4 +1,4 @@
-import  Db from '../db/db';
+import Db from '../db/db';
 import Company from '../models/company';
 
 import schema from '../schema/company';
@@ -12,9 +12,9 @@ class CompanyData {
             if (!result.error) {
                 const companyName = await Db.addCompany(Company, companyData)
                 return Response.responseOkCreated(res, companyName)
-            } 
+            }
         } catch (error) {
-            return Response.responseBadRquest(res)
+            return Response.responseServerError(res)
         }
     }
     static async allCompanies(req, res) {
@@ -31,7 +31,7 @@ class CompanyData {
             const companyById = await Db.getCompanyById(Company, id)
             return Response.responseOk(res, companyById)
         } catch (error) {
-            return Response.responseNotFound(res)
+            return Response.responseServerError(res)
         }
     }
 }

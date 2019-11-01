@@ -18,42 +18,42 @@ class PackageData {
                 return Response.responseOkCreated(res, packageInfo)
             }
         } catch (error) {
-            return Response.responseBadRquest(res)
+            return Response.responseServerError(res)
         }
     }
     static async getAllPackages(req, res) {
         try {
             const allPackages = await Db.getAllPackages(Package)
-            return res.status(200).json(allPackages)
+            return Response.responseOk(res, allPackages)
         } catch (error) {
-            res.status(500).json({ error: error })
+            return Response.responseServerError(res)
         }
     }
     static async getPackageByResident(req, res) {
         const { resident } = req.params;
         try {
             const packageByResident = await Db.getPackageByResident(Package, resident)
-            return res.status(200).json(packageByResident)
+            return Response.responseOk(res, packageByResident)
         } catch (error) {
-            res.status(500).json({ error: error })
+            return Response.responseNotFound(res)
         }
     }
     static async deletePackage(req, res) {
         const { resident } = req.params;
         try {
             const packageToDelete = await Db.removePackage(Package, resident)
-            return res.status(200).json(packageToDelete)
+            return Response.responseOk(res, packageToDelete)
         } catch (error) {
-            res.status(500).json({ error: error })
+            return Response.responseServerError(res)
         }
     }
     static async getPackageByDate(req, res) {
         const { deliveryDate } = req.params;
         try {
             const packageByDate = await Db.getPackageByDate(Package, deliveryDate)
-            return res.status(200).json(packageByDate)
+            return Response.responseOk(res, packageByDate)
         } catch (error) {
-            res.status(500).json({ error: error })
+            return Response.responseServerError(res)
         }
     }
 }

@@ -56,7 +56,7 @@ class userData {
             const allUsers = await Db.getAllUsers(User)
             return Response.responseOk(res, allUsers)
         } catch (error) {
-            return Response.responseNotFound(res)
+            return Response.responseServerError(res)
         }
     }
     static async getUserById(req, res) {
