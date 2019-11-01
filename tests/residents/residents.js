@@ -103,7 +103,7 @@ describe('Resident', () => {
                 .send({ name: "John Doe", email: 'doe@gmail.com', phone: '888-888-8888' })
                 .end((err, response) => {
                     response.body.should.be.a('object');
-                    expect(response.body).to.have.nested.property('message').to.eql('added');
+                    expect(response.body).to.have.nested.property('success').to.eql(true);
                     expect(response.body).to.have.nested.property('data.email').to.eql('doe@gmail.com');
                     expect(response.body).to.have.nested.property('data.phone').to.eql('888-888-8888');
                     expect(response.body).to.have.nested.property('data.name').to.eql('John Doe');

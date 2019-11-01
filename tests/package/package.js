@@ -58,11 +58,12 @@ describe('Package', () => {
                 .get(packagePath)
                 .set('Authorization', 'Bearer ' + validAdminToken)
                 .end((err, response) => {
-                    id = response.body[0]._id
-                    response.body.should.be.a('array');
-                    expect(response.body[0]).to.have.property('deliveryDate')
-                    expect(response.body[0]).to.have.property('deliveryTime')
-                    expect(response.body[0]).to.have.property('additionalInfo')
+                    id = response.body.data[0]._id
+                    response.body.should.be.a('object');
+                    expect(response.body).to.have.nested.property('success').to.eql(true);
+                    expect(response.body.data[0]).to.have.property('deliveryDate')
+                    expect(response.body.data[0]).to.have.property('deliveryTime')
+                    expect(response.body.data[0]).to.have.property('additionalInfo')
                     done();
                 });
         });
@@ -80,10 +81,7 @@ describe('Package', () => {
                 .delete('/api/package/' + id)
                 .set('Authorization', 'Bearer ' + validAdminToken)
                 .end((err, response) => {
-                    response.body.should.be.a('object');
-                    expect(response.body).to.have.property('deliveryDate')
-                    expect(response.body).to.have.property('deliveryTime')
-                    expect(response.body).to.have.property('additionalInfo')
+                    expect(response.body).to.have.nested.property('success').to.eql(true);
                     done();
                 });
         });
