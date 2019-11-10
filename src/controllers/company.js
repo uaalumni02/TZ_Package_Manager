@@ -22,7 +22,7 @@ class CompanyData {
             const allCompanyNames = await Db.getAllCompanies(Company)
             return Response.responseOk(res, allCompanyNames)
         } catch (error) {
-            return Response.responseServerError(res)
+            return Response.responseNotFound(res)
         }
     }
     static async getCompanyById(req, res) {
@@ -31,7 +31,7 @@ class CompanyData {
             const companyById = await Db.getCompanyById(Company, id)
             return Response.responseOk(res, companyById)
         } catch (error) {
-            return Response.responseServerError(res)
+            return Response.responseNotFound(res)
         }
     }
 }

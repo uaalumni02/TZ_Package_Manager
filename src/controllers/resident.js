@@ -22,7 +22,7 @@ class ResidentData {
             const allResidents = await Db.getAllResidents(Resident)
             return Response.responseOk(res, allResidents)
         } catch (error) {
-            return Response.responseServerError(res)
+            return Response.responseNotFound(res)
         }
     }
     static async getResidentById(req, res) {

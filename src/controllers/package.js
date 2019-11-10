@@ -26,7 +26,7 @@ class PackageData {
             const allPackages = await Db.getAllPackages(Package)
             return Response.responseOk(res, allPackages)
         } catch (error) {
-            return Response.responseServerError(res)
+            return Response.responseNotFound(res)
         }
     }
     static async getPackageByResident(req, res) {
@@ -35,7 +35,7 @@ class PackageData {
             const packageByResident = await Db.getPackageByResident(Package, resident)
             return Response.responseOk(res, packageByResident)
         } catch (error) {
-            return Response.responseServerError(res)
+            return Response.responseNotFound(res)
         }
     }
     static async deletePackage(req, res) {
@@ -53,7 +53,7 @@ class PackageData {
             const packageByDate = await Db.getPackageByDate(Package, deliveryDate)
             return Response.responseOk(res, packageByDate)
         } catch (error) {
-            return Response.responseServerError(res)
+            return Response.responseNotFound(res)
         }
     }
     static async getPackageById(req, res) {
@@ -62,7 +62,7 @@ class PackageData {
             const packageById = await Db.getPackageById(Package, id)
             return Response.responseOk(res, packageById)
         } catch (error) {
-            return Response.responseServerError(res)
+            return Response.responseNotFound(res)
         }
     }
 }
