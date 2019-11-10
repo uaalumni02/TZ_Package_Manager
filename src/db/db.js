@@ -25,7 +25,7 @@ class Db {
   }
   static async editResident(model, data) {
     try {
-      const editResident = await model. findOneAndUpdate({ ...data })
+      const editResident = await model.findOneAndUpdate({ ...data })
       return editResident
     } catch (error) {
       throw error
@@ -149,8 +149,3 @@ class Db {
 }
 
 export default Db;
-
-// Promise ->
-
-// const allUsers = await model.find({}); 
-// const newUser = await model({ ...user });
