@@ -2,7 +2,7 @@ import 'dotenv/config';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import request from 'supertest';
-import Mock from '../mock/index';
+import Mock from '../__mocks__/index';
 import app from '../../src/server';
 
 const http = request.agent(app);
