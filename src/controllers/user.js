@@ -3,15 +3,15 @@ import User from '../models/user';
 
 import Token from '../helpers/jwt/token';
 import bcrypt from '../helpers/bcrypt/bcrypt'
-import schema from '../schema/user';
+import validator from '../validator/user';
 import * as Response from '../helpers/response/response';
 
 
-class userData {
+class UserData {
     static async addUser(req, res) {
         const { username, password } = req.body;
         try {
-            const result = await schema.validateAsync(req.body);
+            const result = await validator.validateAsync(req.body);
             if (!result.error) {
                 const user = await Db.findUser(User, username)
                 if (user != null) {
@@ -32,7 +32,7 @@ class userData {
     static async userLogin(req, res) {
         const { username, password } = req.body;
         try {
-            const result = await schema.validateAsync(req.body);
+            const result = await validator.validateAsync(req.body);
             if (!result.error) {
                 const user = await Db.findUser(User, username)
                 if (user == null) {
@@ -80,4 +80,4 @@ class userData {
 }
 
 
-export default userData
+export default UserData

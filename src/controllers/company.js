@@ -1,14 +1,14 @@
 import Db from '../db/db';
 import Company from '../models/company';
 
-import schema from '../schema/company';
+import validator from '../validator/company';
 import * as Response from '../helpers/response/response';
 
 class CompanyData {
     static async addCompanyName(req, res) {
         const companyData = { ...req.body };
         try {
-            const result = await schema.validateAsync(companyData);
+            const result = await validator.validateAsync(companyData);
             if (!result.error) {
                 const companyName = await Db.addCompany(Company, companyData)
                 return Response.responseOkCreated(res, companyName)

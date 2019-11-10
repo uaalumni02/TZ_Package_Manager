@@ -2,7 +2,7 @@ import Db from '../db/db';
 import Package from '../models/package';
 
 import * as Response from '../helpers/response/response';
-import schema from '../schema/package';
+import validator from '../validator/package';
 
 import moment from 'moment';
 
@@ -12,7 +12,7 @@ class PackageData {
         const deliveryTimestamp = moment(packageData.deliveryDate, 'YYYY-MM-DD').unix()
         packageData.deliveryDate = deliveryTimestamp
         try {
-            const result = await schema.validateAsync(packageData);
+            const result = await validator.validateAsync(packageData);
             if (!result.error) {
                 const packageInfo = await Db.addPackage(Package, packageData)
                 return Response.responseOkCreated(res, packageInfo)
@@ -35,7 +35,7 @@ class PackageData {
             const packageByResident = await Db.getPackageByResident(Package, resident)
             return Response.responseOk(res, packageByResident)
         } catch (error) {
-            return Response.responseNotFound(res)
+            return Response.responseServerError(res)
         }
     }
     static async deletePackage(req, res) {

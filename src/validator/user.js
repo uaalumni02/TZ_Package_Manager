@@ -11,12 +11,4 @@ const schema = Joi.object({
         .max(15)
 })
 
-
-// const schema = Joi.object({
-//     username: Joi.string()
-//         .required(),
-//     password: Joi.string()
-        
-// })
-
 export default schema

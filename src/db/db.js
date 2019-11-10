@@ -99,7 +99,7 @@ class Db {
   }
   static async findUser(model, username) {
     try {
-      const user = await model.findOne({ username: username })
+      const user = await model.findOne({ username })
       return user
     } catch (error) {
       throw error;
@@ -140,3 +140,8 @@ class Db {
 }
 
 export default Db;
+
+// Promise ->
+
+// const allUsers = await model.find({}); 
+// const newUser = await model({ ...user });

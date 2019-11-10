@@ -2,13 +2,13 @@ import Db from '../db/db';
 import Resident from '../models/resident';
 
 import * as Response from '../helpers/response/response';
-import schema from '../schema/resident';
+import validator from '../validator/resident';
 
 class ResidentData {
     static async addNewResident(req, res) {
         const newResidentData = { ...req.body };
         try {
-            const result = await schema.validateAsync(newResidentData);
+            const result = await validator.validateAsync(newResidentData);
             if (!result.error) {
                 const addResidents = await Db.addResidents(Resident, newResidentData)
                 return Response.responseOkCreated(res, addResidents)
@@ -38,7 +38,7 @@ class ResidentData {
         const { name, email, phone } = req.body,
             updateResident = { name, email, phone };
         try {
-            const result = await schema.validateAsync(updateResident);
+            const result = await validator.validateAsync(updateResident);
             if (!result.error) {
                 const residentToEdit = await Db.editResident(Resident, updateResident)
                 return Response.responseOk(res, residentToEdit)
