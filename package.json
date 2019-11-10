@@ -6,7 +6,8 @@
   "scripts": {
     "test": " NODE_ENV=test mocha --require @babel/register ./tests/**/*.js --exit",
     "start:dev": "nodemon --exec babel-node src/server",
-    "start": "server.js"
+    "build": "babel src -d build",
+    "start": "node build/server.js"
   },
   "keywords": [],
   "author": "",
