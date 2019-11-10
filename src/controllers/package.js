@@ -56,6 +56,15 @@ class PackageData {
             return Response.responseServerError(res)
         }
     }
+    static async getPackageById(req, res) {
+        const { id } = req.params;
+        try {
+            const packageById = await Db.getPackageById(Package, id)
+            return Response.responseOk(res, packageById)
+        } catch (error) {
+            return Response.responseServerError(res)
+        }
+    }
 }
 
 

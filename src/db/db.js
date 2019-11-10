@@ -97,6 +97,15 @@ class Db {
       throw error;
     }
   }
+  static async getPackageById(model, id) {
+    try {
+      const packageById = await model.findById(id)
+      .populate('name companyName').exec()
+      return packageById
+    } catch (error) {
+      throw error;
+    }
+  }
   static async findUser(model, username) {
     try {
       const user = await model.findOne({ username })

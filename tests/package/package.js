@@ -68,6 +68,28 @@ describe('Package', () => {
                 });
         });
     });
+    describe(' get package by id', () => {
+        it('should not get package by id since no valid token', (done) => {
+            request(app)
+                .get('/api/package/' + id)
+                .expect(401, done);
+        });
+    });
+    describe(' get package by ID', () => {
+        it('should get package by id since valid token', (done) => {
+            chai.request(app)
+                .get('/api/package/' + id)
+                .set('Authorization', 'Bearer ' + validAdminToken)
+                .end((err, response) => {
+                    response.body.should.be.a('object');
+                    expect(response.body).to.have.nested.property('success').to.eql(true);
+                    expect(response.body).to.have.nested.property('data.deliveryDate')
+                    expect(response.body).to.have.nested.property('data.deliveryTime')
+                    expect(response.body).to.have.nested.property('data.additionalInfo')
+                    done();
+                });
+        });
+    });
     describe(' delete package by id', () => {
         it('should not delete by id since no valid token', (done) => {
             request(app)
