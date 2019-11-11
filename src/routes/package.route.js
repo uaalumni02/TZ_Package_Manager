@@ -1,8 +1,6 @@
 import express from 'express';
 import checkAuth from '../middleware/check-auth';
 
-//import model
-import Package from '../models/package';
 // import controller
 import packageController from '../controllers/package';
 

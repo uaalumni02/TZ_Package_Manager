@@ -1,9 +1,6 @@
 import express from 'express';
 import checkAuth from '../middleware/check-auth';
 
-
-//import model
-import Resident from '../models/resident';
 // import controller
 import residentController from '../controllers/resident';
 
