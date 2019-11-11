@@ -44,8 +44,9 @@ class UserData {
                     const userData = { user, token }
                     return Response.responseOk(res, userData)
                 }
-            } else {
                 return Response.responseBadAuth(res)
+            } else {
+                return Response.responseValidationError(res)
             }
         } catch (error) {
             return Response.responseServerError(res)

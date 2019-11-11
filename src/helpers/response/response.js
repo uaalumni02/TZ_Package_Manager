@@ -54,6 +54,12 @@ const responseServerError = (res) => {
         message: "internal server error",
     });
 }
+const responseValidationError = (res) => {
+    return res.status(400).json({
+        success: false,
+        message: 'Validation Error, bad request'
+    });
+}
 
 export {
     responseBadRquest,
@@ -63,5 +69,6 @@ export {
     responseConflict,
     responseBadAuth,
     responseOkUserCreated,
-    responseServerError
+    responseServerError,
+    responseValidationError
 }
