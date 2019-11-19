@@ -8,11 +8,6 @@ const packageInformationSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    deliveryTime: {
-        type: String,
-        required: [true, 'Time is required'],
-        validate: [isValidTime, 'Please enter a valid Time'],
-    },
     additionalInfo: {
         type: String,
         min: 2,

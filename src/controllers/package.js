@@ -9,7 +9,7 @@ import moment from 'moment';
 class PackageData {
     static async addPackage(req, res) {
         const packageData = { ...req.body };
-        const deliveryTimestamp = moment(packageData.deliveryDate, 'YYYY-MM-DD').unix()
+        const deliveryTimestamp = moment(packageData.deliveryDate, 'YYYY-MM-DD hh:mmA').unix()
         packageData.deliveryDate = deliveryTimestamp
         try {
             const result = await validator.validateAsync(packageData);
