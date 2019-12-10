@@ -31,6 +31,14 @@ class Db {
       throw error;
     }
   }
+  static async removeResident(model, id) {
+    try {
+      const deleteResident = await model.findOneAndDelete({ _id: id });
+      return {};
+    } catch (error) {
+      throw error;
+    }
+  }
   static async addCompany(model, data) {
     try {
       const newDelivery = await model({ ...data });

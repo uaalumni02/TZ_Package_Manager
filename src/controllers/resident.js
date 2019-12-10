@@ -47,5 +47,14 @@ class ResidentData {
             return Response.responseServerError(res)
         }
     }
+    static async deleteResident(req, res) {
+        const { id } = req.params;
+        try {
+            const residentToDelete = await Db.removeResident(Resident, id)
+            return Response.responseOk(res, residentToDelete)
+        } catch (error) {
+            return Response.responseServerError(res)
+        }
+    }
 }
 export default ResidentData;

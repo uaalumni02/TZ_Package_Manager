@@ -13,6 +13,7 @@ router.route('/')
   router.route('/:id')
   .get(checkAuth, residentController.getResidentById)
   .patch(checkAuth, residentController.editResident)
+  .delete(checkAuth, residentController.deleteResident)
 
 export default router;
 
