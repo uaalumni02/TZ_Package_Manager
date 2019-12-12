@@ -23,10 +23,15 @@ class Db {
       throw error;
     }
   }
-  static async editResident(model, data) {
+  static async editResident(model, residentId, residentData) {
     try {
-      const editResident = await model.findOneAndUpdate({ ...data });
-      return editResident;
+      const filter = { _id: residentId };
+      const updatedResident = await model.findOneAndUpdate(
+        filter,
+        residentData,
+        { new: true }
+      );
+      return updatedResident;
     } catch (error) {
       throw error;
     }
