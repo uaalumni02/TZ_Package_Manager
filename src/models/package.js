@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-import isValidTime from '../helpers/model/package';
-
 const packageInformationSchema = mongoose.Schema({
     deliveryDate: {
         type: String,
@@ -12,6 +10,9 @@ const packageInformationSchema = mongoose.Schema({
         type: String,
         min: 2,
         max: 25,
+    },
+    isDelivered: {
+        type: Boolean
     },
     name: {
         type: Schema.Types.ObjectId,

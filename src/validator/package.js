@@ -7,6 +7,7 @@ const schema = Joi.object({
         .min(2)
         .max(25)
         .required(),
+        isDelivered: Joi.boolean(),
     name: Joi.objectId(),
     companyName: Joi.objectId()
 })
