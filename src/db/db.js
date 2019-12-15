@@ -128,6 +128,17 @@ class Db {
       throw error;
     }
   }
+  static async editPackage(model, packageId, packageData) {
+    try {
+      const filter = { _id: packageId };
+      const updatedPackage = await model.findOneAndUpdate(filter, packageData, {
+        new: true
+      });
+      return updatedPackage;
+    } catch (error) {
+      throw error;
+    }
+  }
   static async findUser(model, username) {
     try {
       const user = await model.findOne({ username });
