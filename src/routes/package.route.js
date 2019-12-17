@@ -12,7 +12,8 @@ router.route('/')
 
   router.route('/:id')
   .get(checkAuth, packageController.getPackageById)
-  .patch(checkAuth, packageController.editPackage)
+  // .patch(checkAuth, packageController.editPackage)
+  .patch(checkAuth, packageController.deliverPackage)
 
 router.route('/:resident')
   .get(checkAuth, packageController.getPackageByResident)

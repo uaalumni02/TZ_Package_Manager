@@ -12,7 +12,7 @@ const packageInformationSchema = mongoose.Schema({
         max: 25,
     },
     isDelivered: {
-        type: Boolean
+        type: Boolean,
     },
     name: {
         type: Schema.Types.ObjectId,

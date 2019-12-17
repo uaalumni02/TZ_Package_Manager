@@ -126,7 +126,8 @@ class PackageData {
       return Response.responseNotFound(res);
     }
   }
-  static async editPackage(req, res) {
+
+  static async deliverPackage(req, res) {
     const packageId = req.params.id;
     const packageData = { ...req.body };
     const deliveryTimestamp = moment(
@@ -136,32 +137,62 @@ class PackageData {
     packageData.deliveryDate = deliveryTimestamp;
     const {
       deliveryDate,
-      additionalInfo,
       isDelivered,
-      name,
-      companyName
     } = req.body;
+
     const updatePackage = {
       deliveryDate: deliveryTimestamp,
-      additionalInfo,
       isDelivered,
-      name,
-      companyName
     };
     try {
-      const result = await validator.validateAsync(updatePackage);
-      if (!result.error) {
-        const packageToUpdate = await Db.editPackage(
+        const delivered = await Db.deliverPackage(
           Package,
           packageId,
           packageData
         );
-        return Response.responseOk(res, packageToUpdate);
-      }
+        return Response.responseOk(res, updatePackage, delivered);
     } catch (error) {
       return Response.responseServerError(res);
     }
   }
+  
+  // static async editPackage(req, res) {
+  //   const packageId = req.params.id;
+  //   const packageData = { ...req.body };
+  //   const deliveryTimestamp = moment(
+  //     packageData.deliveryDate,
+  //     "YYYY-MM-DD hh:mmA"
+  //   ).unix();
+  //   packageData.deliveryDate = deliveryTimestamp;
+  //   const {
+  //     deliveryDate,
+  //     additionalInfo,
+  //     isDelivered,
+  //     name,
+  //     companyName
+  //   } = req.body;
+
+  //   const updatePackage = {
+  //     deliveryDate: deliveryTimestamp,
+  //     additionalInfo,
+  //     isDelivered,
+  //     name,
+  //     companyName
+  //   };
+  //   try {
+  //     const result = await validator.validateAsync(updatePackage);
+  //     if (!result.error) {
+  //       const packageToUpdate = await Db.editPackage(
+  //         Package,
+  //         packageId,
+  //         packageData
+  //       );
+  //       return Response.responseOk(res, packageToUpdate);
+  //     }
+  //   } catch (error) {
+  //     return Response.responseServerError(res);
+  //   }
+  // }
 }
 
 export default PackageData;

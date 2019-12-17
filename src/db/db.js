@@ -128,13 +128,24 @@ class Db {
       throw error;
     }
   }
-  static async editPackage(model, packageId, packageData) {
+  // static async editPackage(model, packageId, packageData) {
+  //   try {
+  //     const filter = { _id: packageId };
+  //     const updatedPackage = await model.findOneAndUpdate(filter, packageData, {
+  //       new: true
+  //     });
+  //     return updatedPackage;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+  static async deliverPackage(model, packageId, packageData) {
     try {
       const filter = { _id: packageId };
-      const updatedPackage = await model.findOneAndUpdate(filter, packageData, {
+      const deliverPackage = await model.findOneAndUpdate(filter, packageData, {
         new: true
       });
-      return updatedPackage;
+      return deliverPackage;
     } catch (error) {
       throw error;
     }
