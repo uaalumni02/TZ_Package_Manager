@@ -120,7 +120,7 @@ class PackageData {
           .then(response => {})
           .catch(error => {});
       };
-      sendHandler();
+      // sendHandler();
       return Response.responseOk(res, packageById);
     } catch (error) {
       return Response.responseNotFound(res);
@@ -130,18 +130,18 @@ class PackageData {
   static async deliverPackage(req, res) {
     const packageId = req.params.id;
     const packageData = { ...req.body };
-    // const deliveryTimestamp = moment(
-    //   packageData.deliveryDate,
-    //   "YYYY-MM-DD hh:mmA"
-    // ).unix();
-    // packageData.deliveryDate = deliveryTimestamp;
+    const deliveryTimestamp = moment(
+      packageData.deliveryDate,
+      "YYYY-MM-DD hh:mmA"
+    ).unix();
+    packageData.deliveryDate = deliveryTimestamp;
     const {
-      // deliveryDate,
+      deliveryDate,
       isDelivered,
     } = req.body;
 
     const updatePackage = {
-      // deliveryDate: deliveryTimestamp,
+      deliveryDate: deliveryTimestamp,
       isDelivered,
     };
     try {
