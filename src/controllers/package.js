@@ -130,32 +130,23 @@ class PackageData {
   static async deliverPackage(req, res) {
     const packageId = req.params.id;
     const packageData = { ...req.body };
-    const deliveryTimestamp = moment(
-      packageData.deliveryDate,
-      "YYYY-MM-DD hh:mmA"
-    ).unix();
-    packageData.deliveryDate = deliveryTimestamp;
-    const {
-      deliveryDate,
-      isDelivered,
-    } = req.body;
+    const { isDelivered } = req.body;
 
     const updatePackage = {
-      deliveryDate: deliveryTimestamp,
-      isDelivered,
+      isDelivered
     };
     try {
-        const delivered = await Db.deliverPackage(
-          Package,
-          packageId,
-          packageData
-        );
-        return Response.responseOk(res, updatePackage, delivered);
+      const delivered = await Db.deliverPackage(
+        Package,
+        packageId,
+        packageData
+      );
+      return Response.responseOk(res, updatePackage, delivered);
     } catch (error) {
       return Response.responseServerError(res);
     }
   }
-  
+
   // static async editPackage(req, res) {
   //   const packageId = req.params.id;
   //   const packageData = { ...req.body };
