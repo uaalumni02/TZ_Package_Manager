@@ -45,40 +45,40 @@ class PackageData {
       return Response.responseNotFound(res);
     }
   }
-  static async deletePackage(req, res) {
-    const { resident } = req.params;
-    try {
-      const packageToDelete = await Db.removePackage(Package, resident);
-      const dateString = moment
-        .unix(packageToDelete.deliveryDate)
-        .format("MM/DD/YYYY hh:mmA");
-      const customerMessage =
-        "Hi " +
-        packageToDelete.name.name +
-        " thank you for picking up your package from " +
-        packageToDelete.companyName.companyName +
-        " " +
-        "delivered on" +
-        " " +
-        dateString;
-      const recipient = process.env.GMAIL_ADDRESS;
-      const messageData = {
-        subject: "Package Pick-Up Confirmation",
-        text: customerMessage
-      };
-      const sendHandler = () => {
-        gmail
-          .send(recipient, messageData)
-          .then(response => {})
-          .catch(error => {});
-      };
-      sendHandler();
+  // static async deletePackage(req, res) {
+  //   const { resident } = req.params;
+  //   try {
+  //     const packageToDelete = await Db.removePackage(Package, resident);
+  //     const dateString = moment
+  //       .unix(packageToDelete.deliveryDate)
+  //       .format("MM/DD/YYYY hh:mmA");
+  //     const customerMessage =
+  //       "Hi " +
+  //       packageToDelete.name.name +
+  //       " thank you for picking up your package from " +
+  //       packageToDelete.companyName.companyName +
+  //       " " +
+  //       "delivered on" +
+  //       " " +
+  //       dateString;
+  //     const recipient = process.env.GMAIL_ADDRESS;
+  //     const messageData = {
+  //       subject: "Package Pick-Up Confirmation",
+  //       text: customerMessage
+  //     };
+  //     const sendHandler = () => {
+  //       gmail
+  //         .send(recipient, messageData)
+  //         .then(response => {})
+  //         .catch(error => {});
+  //     };
+      // sendHandler();
 
-      return Response.responseOk(res, packageToDelete);
-    } catch (error) {
-      return Response.responseServerError(res);
-    }
-  }
+  //     return Response.responseOk(res, packageToDelete);
+  //   } catch (error) {
+  //     return Response.responseServerError(res);
+  //   }
+  // }
   static async getPackageByDate(req, res) {
     const { deliveryDate } = req.params;
     try {
@@ -142,6 +142,25 @@ class PackageData {
         packageData
       );
       return Response.responseOk(res, updatePackage, delivered);
+    } catch (error) {
+      return Response.responseServerError(res);
+    }
+  }
+  static async deletePackage(req, res) {
+    const packageId = req.params.id;
+    const packageData = { ...req.body };
+    const { isDeleted } = req.body;
+
+    const deletePackage = {
+      isDeleted
+    };
+    try {
+      const deleted = await Db.removePackage(
+        Package,
+        packageId,
+        packageData
+      );
+      return Response.responseOk(res, deletePackage, deleted);
     } catch (error) {
       return Response.responseServerError(res);
     }

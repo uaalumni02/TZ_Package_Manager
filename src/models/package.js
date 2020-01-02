@@ -14,6 +14,9 @@ const packageInformationSchema = mongoose.Schema({
     isDelivered: {
         type: Boolean,
     },
+    isDeleted: {
+        type: Boolean,
+    },
     name: {
         type: Schema.Types.ObjectId,
         ref: 'Resident',

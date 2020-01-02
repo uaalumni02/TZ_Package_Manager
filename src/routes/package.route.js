@@ -14,10 +14,11 @@ router.route('/')
   .get(checkAuth, packageController.getPackageById)
   // .patch(checkAuth, packageController.editPackage)
   .patch(checkAuth, packageController.deliverPackage)
+  .patch(checkAuth, packageController.deletePackage)
 
 router.route('/:resident')
   .get(checkAuth, packageController.getPackageByResident)
-  .delete(checkAuth, packageController.deletePackage)
+  // .delete(checkAuth, packageController.deletePackage)
 
 router.route('/:deliveryDate')
   .get(checkAuth, packageController.getPackageByDate);

@@ -98,17 +98,17 @@ class Db {
       throw error;
     }
   }
-  static async removePackage(model, id) {
-    try {
-      const deletePackage = await model
-        .findOneAndDelete({ _id: id })
-        .populate("name companyName")
-        .exec();
-      return deletePackage;
-    } catch (error) {
-      throw error;
-    }
-  }
+  // static async removePackage(model, id) {
+  //   try {
+  //     const deletePackage = await model
+  //       .findOneAndDelete({ _id: id })
+  //       .populate("name companyName")
+  //       .exec();
+  //     return deletePackage;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
   static async getPackageByDate(model, deliveryDate) {
     try {
       const packages = await model.find({ deliveryDate });
@@ -146,6 +146,18 @@ class Db {
         new: true
       });
       return deliverPackage;
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async removePackage(model, packageId, packageData) {
+    try {
+      const filter = { _id: packageId };
+      const removePackage = await model.findOneAndUpdate(filter, packageData, {
+        new: true
+      });
+      console.log(removePackage)
+      return removePackage;
     } catch (error) {
       throw error;
     }
