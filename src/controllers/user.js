@@ -19,9 +19,9 @@ class UserData {
                 } else {
                     const hash = await bcrypt.hashPassword(password, 10);
                     const user = { ...req.body, password: hash };
-                    const { username, _id: userId } = await Db.saveUser(User, user);
+                    const { username, _id: userId, isAdmin } = await Db.saveUser(User, user);
                     const token = Token.sign({ username, userId })
-                    const userData = { username, userId, token }
+                    const userData = { username, userId, token, isAdmin }
                     return Response.responseOkUserCreated(res, userData);
                 }
             }

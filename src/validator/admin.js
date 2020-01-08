@@ -9,7 +9,6 @@ const schema = Joi.object({
   password: Joi.string()
     .min(3)
     .max(15),
-  isAdmin: Joi.boolean().required()
 });
 
 export default schema;

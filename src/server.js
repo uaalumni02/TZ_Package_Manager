@@ -18,7 +18,7 @@ import residentRoutes from './routes/resident.route'
 import userRoutes from './routes/user.route';
 import companyRoutes from './routes/company.route';
 import packageRoutes from './routes/package.route';
-
+import adminRoutes from './routes/admin.route';
 
 app.use(cors());
 app.use(express.json());
@@ -48,6 +48,7 @@ router.use('/resident', residentRoutes);
 router.use('/user', userRoutes);
 router.use('/company', companyRoutes);
 router.use('/package', packageRoutes);
+router.use('/admin', adminRoutes);
 
 app.use('/api', router);
 

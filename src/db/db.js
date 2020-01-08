@@ -98,17 +98,7 @@ class Db {
       throw error;
     }
   }
-  // static async removePackage(model, id) {
-  //   try {
-  //     const deletePackage = await model
-  //       .findOneAndDelete({ _id: id })
-  //       .populate("name companyName")
-  //       .exec();
-  //     return deletePackage;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+  
   static async getPackageByDate(model, deliveryDate) {
     try {
       const packages = await model.find({ deliveryDate });
@@ -128,17 +118,6 @@ class Db {
       throw error;
     }
   }
-  // static async editPackage(model, packageId, packageData) {
-  //   try {
-  //     const filter = { _id: packageId };
-  //     const updatedPackage = await model.findOneAndUpdate(filter, packageData, {
-  //       new: true
-  //     });
-  //     return updatedPackage;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
   static async deliverPackage(model, packageId, packageData) {
     try {
       const filter = { _id: packageId };
@@ -197,6 +176,46 @@ class Db {
   static async removeUser(model, id) {
     try {
       const deleteUser = await model.findOneAndDelete({ _id: id });
+      return {};
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async saveAdmin(model, admin) {
+    try {
+      const newAdmin = await model({ ...admin });
+      return newAdmin.save();
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async findAdmin(model, username) {
+    try {
+      const admin = await model.findOne({ username });
+      return admin;
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async getAllAdmins(model) {
+    try {
+      const allAdmins = await model.find({});
+      return allAdmins;
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async getAdminById(model, id) {
+    try {
+      const admin = await model.findById(id);
+      return admin;
+    } catch (error) {
+      throw error;
+    }
+  }
+  static async removeAdmin(model, id) {
+    try {
+      const deleteAdmin = await model.findOneAndDelete({ _id: id });
       return {};
     } catch (error) {
       throw error;
