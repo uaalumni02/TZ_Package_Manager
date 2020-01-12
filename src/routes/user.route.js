@@ -17,5 +17,6 @@ router.route('/')
   router.route('/:id')
   .delete(checkAuth, userController.deleteUser)
   .get(checkAuth, userController.getUserById)
+  .patch(checkAuth, userController.approveUser)
 
 export default router;

@@ -221,6 +221,17 @@ class Db {
       throw error;
     }
   }
+  static async approveUser(model, userId, userData) {
+    try {
+      const filter = { _id: userId };
+      const approveUser = await model.findOneAndUpdate(filter, userData, {
+        new: true
+      });
+      return approveUser;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default Db;

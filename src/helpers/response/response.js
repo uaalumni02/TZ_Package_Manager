@@ -36,7 +36,7 @@ const responseConflict = (res) => {
 const responseBadAuth = (res) => {
     return res.status(401).json({
         success: false,
-        message: 'auth failed'
+        message: 'auth failed',
     });
 }
 
