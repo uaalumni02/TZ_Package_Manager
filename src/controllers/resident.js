@@ -34,15 +34,15 @@ class ResidentData {
       return Response.responseNotFound(res);
     }
   }
-  static async deleteResident(req, res) {
-    const { id } = req.params;
-    try {
-      const residentToDelete = await Db.removeResident(Resident, id);
-      return Response.responseOk(res, residentToDelete);
-    } catch (error) {
-      return Response.responseServerError(res);
-    }
-  }
+  // static async deleteResident(req, res) {
+  //   const { id } = req.params;
+  //   try {
+  //     const residentToDelete = await Db.removeResident(Resident, id);
+  //     return Response.responseOk(res, residentToDelete);
+  //   } catch (error) {
+  //     return Response.responseServerError(res);
+  //   }
+  // }
   static async editResident(req, res) {
     const residentId = req.params.id;
     const residentData = { ...req.body };
@@ -58,6 +58,25 @@ class ResidentData {
         );
         return Response.responseOk(res, residentToUpdate);
       }
+    } catch (error) {
+      return Response.responseServerError(res);
+    }
+  }
+  static async deleteResident(req, res) {
+    const residentId = req.params.id;
+    const residentData = { ...req.body };
+    const { isDeleted } = req.body;
+
+    const deleteResident = {
+      isDeleted
+    };
+    try {
+      const deleted = await Db.removeResident(
+        Resident,
+        residentId,
+        residentData
+      );
+      return Response.responseOk(res, deleteResident, deleted);
     } catch (error) {
       return Response.responseServerError(res);
     }

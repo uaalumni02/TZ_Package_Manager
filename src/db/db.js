@@ -36,10 +36,21 @@ class Db {
       throw error;
     }
   }
-  static async removeResident(model, id) {
+  // static async removeResident(model, id) {
+  //   try {
+  //     const deleteResident = await model.findOneAndDelete({ _id: id });
+  //     return {};
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
+  static async removeResident(model, residentId, residentData) {
     try {
-      const deleteResident = await model.findOneAndDelete({ _id: id });
-      return {};
+      const filter = { _id: residentId };
+      const removeResident = await model.findOneAndUpdate(filter, residentData, {
+        new: true
+      });
+      return removeResident;
     } catch (error) {
       throw error;
     }
@@ -135,7 +146,6 @@ class Db {
       const removePackage = await model.findOneAndUpdate(filter, packageData, {
         new: true
       });
-      console.log(removePackage)
       return removePackage;
     } catch (error) {
       throw error;

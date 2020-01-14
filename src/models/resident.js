@@ -21,6 +21,9 @@ const residentInformationSchema = Schema({
     required: [true, 'Phone number is requrired'],
     validate: [validate.isValidPhoneNumber, 'Please enter a valid phone number'],
   },
+  isDeleted: {
+    type: Boolean,
+},
   companyName: {
     type: Schema.Types.ObjectId,
     ref: 'Company',
