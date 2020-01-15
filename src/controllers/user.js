@@ -23,7 +23,6 @@ class UserData {
             User,
             user
           );
-          console.log(isAdmin)
           if(isAdmin) {
            token = Token.sign({ username, userId });
           }
@@ -46,9 +45,9 @@ class UserData {
         }
         const isSamePassword = await bcrypt.comparePassword(
           password,
-          user.password
+          user.password,
         );
-        if (isSamePassword) {
+        if (isSamePassword &&  user.isAdmin) {
           const token = Token.sign({
             username: user.username,
             userId: user._id
