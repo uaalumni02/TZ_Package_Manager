@@ -6,10 +6,10 @@ import bcrypt from "../helpers/bcrypt/bcrypt";
 import validator from "../validator/user";
 import * as Response from "../helpers/response/response";
 
-const token = ""
+const token = "";
 class UserData {
   static async addUser(req, res) {
-    const { username, password } = req.body;
+    const { username, password, role } = req.body;
     try {
       const result = await validator.validateAsync(req.body);
       if (!result.error) {
@@ -19,14 +19,10 @@ class UserData {
         } else {
           const hash = await bcrypt.hashPassword(password, 10);
           const user = { ...req.body, password: hash };
-          const { username, _id: userId, isAdmin } = await Db.saveUser(
-            User,
-            user
-          );
-          if(isAdmin) {
-           token = Token.sign({ username, userId });
-          }
-          const userData = { username, userId, token, isAdmin };
+          const { username, _id: userId } = await Db.saveUser(User, user);
+
+         const token = Token.sign({ username, userId });
+          const userData = { username, userId, token, role };
           return Response.responseOkUserCreated(res, userData);
         }
       }
@@ -45,12 +41,12 @@ class UserData {
         }
         const isSamePassword = await bcrypt.comparePassword(
           password,
-          user.password,
+          user.password
         );
-        if (isSamePassword &&  user.isAdmin) {
+        if (isSamePassword && user.role) {
           const token = Token.sign({
             username: user.username,
-            userId: user._id
+            userId: user._id,
           });
           const userData = { user, token };
           return Response.responseOk(res, userData);

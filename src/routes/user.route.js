@@ -1,22 +1,24 @@
-import express from 'express';
-import checkAuth from '../middleware/check-auth';
+import express from "express";
+import checkAuth from "../middleware/check-auth";
+import checkIsAdmin from "../middleware/check-isAdmin";
 
 // import controller
-import userController from '../controllers/user';
+import userController from "../controllers/user";
 
 const router = express.Router();
 
-
 //user login
-router.post('/login', userController.userLogin);
+router.post("/login", userController.userLogin);
 
-router.route('/')
+router
+  .route("/")
   .post(userController.addUser)
-  .get(checkAuth, userController.getAllUsers)
+  .get(checkAuth, checkIsAdmin, userController.getAllUsers);
 
-  router.route('/:id')
-  .delete(checkAuth, userController.deleteUser)
-  .get(checkAuth, userController.getUserById)
-  .patch(checkAuth, userController.approveUser)
+router
+  .route("/:id")
+  .delete(checkAuth, checkIsAdmin, userController.deleteUser)
+  .get(checkAuth, checkIsAdmin, userController.getUserById)
+  .patch(checkAuth, checkIsAdmin, userController.approveUser);
 
 export default router;

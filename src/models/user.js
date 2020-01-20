@@ -13,10 +13,12 @@ const UserSchema = Schema({
     type: String,
     required: true
   },
-  isAdmin: {
-    type: Boolean,
-    required: true
-  },
+  // isAdmin: {
+  //   type: Boolean,
+  //   required: true
+  // },
+  role: { type: String, enum: ["standard", "admin", "super admin"] },
+  
   __v: {
     type: Number,
     select: false
