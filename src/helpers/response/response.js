@@ -41,7 +41,6 @@ const responseBadAuth = (res) => {
 }
 
 const responseOkUserCreated = (res, userdata) => {
-    console.log(role)
     return res.status(201).json({
         success: true,
         message: "user successfully added",

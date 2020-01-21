@@ -11,6 +11,8 @@ const schema = Joi.object({
     .max(15),
   // isAdmin: Joi.boolean().required()
   role: Joi.string()
+    .min(3)
+    .max(30)
 });
 
 export default schema;

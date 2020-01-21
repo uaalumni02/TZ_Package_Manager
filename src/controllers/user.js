@@ -6,7 +6,7 @@ import bcrypt from "../helpers/bcrypt/bcrypt";
 import validator from "../validator/user";
 import * as Response from "../helpers/response/response";
 
-const token = "";
+
 class UserData {
   static async addUser(req, res) {
     const { username, password, role } = req.body;
@@ -23,6 +23,7 @@ class UserData {
 
          const token = Token.sign({ username, userId });
           const userData = { username, userId, token, role };
+          console.log(userData)
           return Response.responseOkUserCreated(res, userData);
         }
       }
