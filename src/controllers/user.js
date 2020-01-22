@@ -21,9 +21,8 @@ class UserData {
           const user = { ...req.body, password: hash };
           const { username, _id: userId } = await Db.saveUser(User, user);
 
-         const token = Token.sign({ username, userId });
+         const token = Token.sign({ username, userId, role });
           const userData = { username, userId, token, role };
-          console.log(userData)
           return Response.responseOkUserCreated(res, userData);
         }
       }
@@ -48,6 +47,7 @@ class UserData {
           const token = Token.sign({
             username: user.username,
             userId: user._id,
+            role: user.role
           });
           const userData = { user, token };
           return Response.responseOk(res, userData);

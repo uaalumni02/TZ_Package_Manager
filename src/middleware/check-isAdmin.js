@@ -1,7 +1,7 @@
 
 
 const isAdmin = (req, res, next) => {
-  if (req.headers.role === 'admin') {
+  if (req.userData.role === 'admin') {
    return next();
   } else {
     return res.status(403).json({
