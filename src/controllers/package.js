@@ -45,40 +45,7 @@ class PackageData {
       return Response.responseNotFound(res);
     }
   }
-  // static async deletePackage(req, res) {
-  //   const { resident } = req.params;
-  //   try {
-  //     const packageToDelete = await Db.removePackage(Package, resident);
-  //     const dateString = moment
-  //       .unix(packageToDelete.deliveryDate)
-  //       .format("MM/DD/YYYY hh:mmA");
-  //     const customerMessage =
-  //       "Hi " +
-  //       packageToDelete.name.name +
-  //       " thank you for picking up your package from " +
-  //       packageToDelete.companyName.companyName +
-  //       " " +
-  //       "delivered on" +
-  //       " " +
-  //       dateString;
-  //     const recipient = process.env.GMAIL_ADDRESS;
-  //     const messageData = {
-  //       subject: "Package Pick-Up Confirmation",
-  //       text: customerMessage
-  //     };
-  //     const sendHandler = () => {
-  //       gmail
-  //         .send(recipient, messageData)
-  //         .then(response => {})
-  //         .catch(error => {});
-  //     };
-      // sendHandler();
 
-  //     return Response.responseOk(res, packageToDelete);
-  //   } catch (error) {
-  //     return Response.responseServerError(res);
-  //   }
-  // }
   static async getPackageByDate(req, res) {
     const { deliveryDate } = req.params;
     try {
@@ -131,7 +98,6 @@ class PackageData {
     const packageId = req.params.id;
     const packageData = { ...req.body };
     const { isDelivered } = req.body;
-
     const updatePackage = {
       isDelivered
     };
@@ -141,6 +107,31 @@ class PackageData {
         packageId,
         packageData
       );
+      const dateString = moment
+        .unix(delivered.deliveryDate)
+        .format("MM/DD/YYYY hh:mmA");
+      const customerMessage =
+        "Hi, you have a package " +
+        " " +
+        "deliveried on" +
+        " " +
+        dateString +
+        " " +
+        "Addtional information: " +
+        "" +
+        delivered.additionalInfo;
+      const recipient = process.env.GMAIL_ADDRESS;
+      const messageData = {
+        subject: "Package Delivery Confirmation",
+        text: customerMessage
+      };
+      const sendHandler = () => {
+        gmail
+          .send(recipient, messageData)
+          .then(response => {})
+          .catch(error => {});
+      };
+      sendHandler();
       return Response.responseOk(res, updatePackage, delivered);
     } catch (error) {
       return Response.responseServerError(res);
@@ -155,54 +146,12 @@ class PackageData {
       isDeleted
     };
     try {
-      const deleted = await Db.removePackage(
-        Package,
-        packageId,
-        packageData
-      );
+      const deleted = await Db.removePackage(Package, packageId, packageData);
       return Response.responseOk(res, deletePackage, deleted);
     } catch (error) {
       return Response.responseServerError(res);
     }
   }
-
-  // static async editPackage(req, res) {
-  //   const packageId = req.params.id;
-  //   const packageData = { ...req.body };
-  //   const deliveryTimestamp = moment(
-  //     packageData.deliveryDate,
-  //     "YYYY-MM-DD hh:mmA"
-  //   ).unix();
-  //   packageData.deliveryDate = deliveryTimestamp;
-  //   const {
-  //     deliveryDate,
-  //     additionalInfo,
-  //     isDelivered,
-  //     name,
-  //     companyName
-  //   } = req.body;
-
-  //   const updatePackage = {
-  //     deliveryDate: deliveryTimestamp,
-  //     additionalInfo,
-  //     isDelivered,
-  //     name,
-  //     companyName
-  //   };
-  //   try {
-  //     const result = await validator.validateAsync(updatePackage);
-  //     if (!result.error) {
-  //       const packageToUpdate = await Db.editPackage(
-  //         Package,
-  //         packageId,
-  //         packageData
-  //       );
-  //       return Response.responseOk(res, packageToUpdate);
-  //     }
-  //   } catch (error) {
-  //     return Response.responseServerError(res);
-  //   }
-  // }
 }
 
 export default PackageData;

@@ -6,7 +6,7 @@ import bcrypt from "../helpers/bcrypt/bcrypt";
 import validator from "../validator/user";
 import * as Response from "../helpers/response/response";
 
-
+const token = ""
 class UserData {
   static async addUser(req, res) {
     const { username, password, role } = req.body;
@@ -19,9 +19,10 @@ class UserData {
         } else {
           const hash = await bcrypt.hashPassword(password, 10);
           const user = { ...req.body, password: hash };
-          const { username, _id: userId } = await Db.saveUser(User, user);
-
-         const token = Token.sign({ username, userId, role });
+          const { username, _id: userId, role } = await Db.saveUser(User, user);
+          if (role == "admin" || role == "super admin") {
+             token = Token.sign({ username, userId, role });
+          }
           const userData = { username, userId, token, role };
           return Response.responseOkUserCreated(res, userData);
         }
@@ -61,9 +62,16 @@ class UserData {
     }
   }
   static async getAllUsers(req, res) {
+    const token = req.get('Authorization').split(' ')[1]
+    const decodedUser = Token.decode(token);
+    const userTypes = ['standard', 'admin'];
+  
     try {
       const allUsers = await Db.getAllUsers(User);
-      return Response.responseOk(res, allUsers);
+      const adminStandardUsers = allUsers.filter(user => {
+        return userTypes.includes(user.role) && user.username != decodedUser.username;
+      })
+      return Response.responseOk(res, adminStandardUsers);
     } catch (error) {
       return Response.responseNotFound(res);
     }

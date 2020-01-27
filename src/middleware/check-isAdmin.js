@@ -1,7 +1,9 @@
 
 
 const isAdmin = (req, res, next) => {
-  if (req.userData.role === 'admin' || req.userData.role === 'super admin' ) {
+  const adminRoles = ['admin', 'super admin'];
+  const { role } = req.userData;
+  if (adminRoles.includes(role)) {
    return next();
   } else {
     return res.status(403).json({
