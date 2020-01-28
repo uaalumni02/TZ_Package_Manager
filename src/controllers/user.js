@@ -65,11 +65,11 @@ class UserData {
     const token = req.get('Authorization').split(' ')[1]
     const decodedUser = Token.decode(token);
     const userTypes = ['standard', 'admin'];
-  
+    
     try {
       const allUsers = await Db.getAllUsers(User);
       const adminStandardUsers = allUsers.filter(user => {
-        return userTypes.includes(user.role) && user.username != decodedUser.username;
+        return userTypes.includes(user.role) && user.username != decodedUser.username || !user.role
       })
       return Response.responseOk(res, adminStandardUsers);
     } catch (error) {
