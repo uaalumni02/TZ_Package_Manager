@@ -18,7 +18,7 @@ router
 router
   .route("/:id")
   .delete(checkAuth, checkIsAdmin, userController.deleteUser)
-  .patch(checkAuth, checkIsAdmin, userController.approveUser);
+  .patch(checkAuth, checkIsAdmin, userController.approveUser)
   .get(checkAuth, checkIsAdmin, userController.getUserById)
 
 export default router;
