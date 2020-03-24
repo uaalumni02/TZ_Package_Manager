@@ -15,14 +15,11 @@ router
 router
   .route("/:id")
   .get(checkAuth, checkIsAdmin, packageController.getPackageById)
-  // .patch(checkAuth, packageController.editPackage)
   .patch(checkAuth, checkIsAdmin, packageController.deliverPackage)
-  .patch(checkAuth, checkIsAdmin, packageController.deletePackage);
 
 router
   .route("/:resident")
   .get(checkAuth, checkIsAdmin, packageController.getPackageByResident);
-// .delete(checkAuth, packageController.deletePackage)
 
 router
   .route("/:deliveryDate")

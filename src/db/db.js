@@ -36,14 +36,6 @@ class Db {
       throw error;
     }
   }
-  // static async removeResident(model, id) {
-  //   try {
-  //     const deleteResident = await model.findOneAndDelete({ _id: id });
-  //     return {};
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
   static async removeResident(model, residentId, residentData) {
     try {
       const filter = { _id: residentId };
