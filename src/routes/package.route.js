@@ -19,10 +19,6 @@ router
 // .delete()
 
 router
-  .route("/:id")
-  .patch(checkAuth, checkIsAdmin, packageController.editPackage)
-
-router
   .route("/:resident")
   .get(checkAuth, checkIsAdmin, packageController.getPackageByResident);
 

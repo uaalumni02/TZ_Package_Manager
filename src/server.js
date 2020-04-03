@@ -20,6 +20,7 @@ import companyRoutes from './routes/company.route';
 import packageRoutes from './routes/package.route';
 import adminRoutes from './routes/admin.route';
 import deletePackageRoutes from './routes/deletePackage.route';
+import editPackageRoutes from './routes/editPackage.route.route';
 
 app.use(cors());
 app.use(express.json());
@@ -51,6 +52,7 @@ router.use('/company', companyRoutes);
 router.use('/package', packageRoutes);
 router.use('/admin', adminRoutes);
 router.use('/deletePackage', deletePackageRoutes);
+router.use('/editPackage', editPackageRoutes);
 
 app.use('/api', router);
 
