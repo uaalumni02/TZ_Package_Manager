@@ -20,7 +20,7 @@ import companyRoutes from './routes/company.route';
 import packageRoutes from './routes/package.route';
 import adminRoutes from './routes/admin.route';
 import deletePackageRoutes from './routes/deletePackage.route';
-import editPackageRoutes from './routes/editPackage.route.route';
+import editPackageRoutes from './routes/editPackage.route';
 
 app.use(cors());
 app.use(express.json());
