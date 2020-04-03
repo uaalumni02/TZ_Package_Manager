@@ -15,7 +15,12 @@ router
 router
   .route("/:id")
   .get(checkAuth, checkIsAdmin, packageController.getPackageById)
-  .patch(checkAuth, checkIsAdmin, packageController.deliverPackage)
+  .patch(checkAuth, checkIsAdmin, packageController.deliverPackage);
+// .delete()
+
+router
+  .route("/:id")
+  .patch(checkAuth, checkIsAdmin, packageController.editPackage)
 
 router
   .route("/:resident")

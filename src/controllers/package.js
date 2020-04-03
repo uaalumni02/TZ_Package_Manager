@@ -152,6 +152,25 @@ class PackageData {
       return Response.responseServerError(res);
     }
   }
+  static async editPackage(req, res) {
+    const packageId = req.params.id;
+    const packageData = { ...req.body };
+    const { deliveryDate, additionalInfo, name, companyName } = req.body;
+    const updatePackage = { deliveryDate, additionalInfo, name, companyName};
+    try {
+      const result = await validator.validateAsync(updatePackage);
+      if (!result.error) {
+        const packageToUpdate = await Db.editPackage(
+          Package,
+          packageId,
+          packageData
+        );
+        return Response.responseOk(res, packageToUpdate);
+      }
+    } catch (error) {
+      return Response.responseServerError(res);
+    }
+  }
 }
 
 export default PackageData;
