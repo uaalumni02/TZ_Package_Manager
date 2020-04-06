@@ -10,20 +10,20 @@ const router = express.Router();
 router
   .route("/")
   .post(checkAuth, checkIsAdmin, packageController.addPackage)
-  .get(checkAuth, checkIsAdmin, packageController.getAllPackages);
+  .get(checkAuth, checkIsAdmin, packageController.getAllPackages)
 
 router
   .route("/:id")
   .get(checkAuth, checkIsAdmin, packageController.getPackageById)
-  .patch(checkAuth, checkIsAdmin, packageController.deliverPackage);
+  .patch(checkAuth, checkIsAdmin, packageController.deliverPackage)
 // .delete()
 
 router
   .route("/:resident")
-  .get(checkAuth, checkIsAdmin, packageController.getPackageByResident);
+  .get(checkAuth, checkIsAdmin, packageController.getPackageByResident)
 
 router
   .route("/:deliveryDate")
-  .get(checkAuth, checkIsAdmin, packageController.getPackageByDate);
+  .get(checkAuth, checkIsAdmin, packageController.getPackageByDate)
 
 export default router;

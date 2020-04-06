@@ -59,35 +59,6 @@ class PackageData {
     const { id } = req.params;
     try {
       const packageById = await Db.getPackageById(Package, id);
-      const dateString = moment
-        .unix(packageById.deliveryDate)
-        .format("MM/DD/YYYY hh:mmA");
-      const customerMessage =
-        "Hi " +
-        packageById.name.name +
-        " " +
-        " you have a package from " +
-        packageById.companyName.companyName +
-        " " +
-        "deliveried on" +
-        " " +
-        dateString +
-        " " +
-        "Addtional information: " +
-        "" +
-        packageById.additionalInfo;
-      const recipient = process.env.GMAIL_ADDRESS;
-      const messageData = {
-        subject: "Package Delivery Confirmation",
-        text: customerMessage
-      };
-      const sendHandler = () => {
-        gmail
-          .send(recipient, messageData)
-          .then(response => {})
-          .catch(error => {});
-      };
-      // sendHandler();
       return Response.responseOk(res, packageById);
     } catch (error) {
       return Response.responseNotFound(res);
@@ -155,10 +126,13 @@ class PackageData {
   static async editPackage(req, res) {
     const packageId = req.params.id;
     const packageData = { ...req.body };
-    const { deliveryDate, additionalInfo, name, companyName } = req.body;
-    const updatePackage = { deliveryDate, additionalInfo, name, companyName};
+    const deliveryTimestamp = moment(
+      packageData.deliveryDate,
+      "YYYY-MM-DD hh:mmA"
+    ).unix();
+    packageData.deliveryDate = deliveryTimestamp;
     try {
-      const result = await validator.validateAsync(updatePackage);
+      const result = await validator.validateAsync(packageData);
       if (!result.error) {
         const packageToUpdate = await Db.editPackage(
           Package,

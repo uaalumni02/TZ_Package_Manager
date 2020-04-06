@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const packageInformationSchema = mongoose.Schema({
     deliveryDate: {
-        type: String,
+        type: Number,
         required: true,
     },
     additionalInfo: {
